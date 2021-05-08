@@ -66,7 +66,7 @@ public class ModuleManager {
         registerModule(new StorageESP("Storage ESP", Category.RENDER, "Rysuje szescian do okola obiektu.", GLFW.GLFW_KEY_UNKNOWN, Colors.RENDER));
         registerModule(new Trajectories("Trajectories", Category.RENDER, "Rysuje linie gdzie dany obiekt leci.", GLFW.GLFW_KEY_UNKNOWN, Colors.RENDER));
         registerModule(new Tracers("Tracers", Category.RENDER, "Rysuje linie do obiektu.", GLFW.GLFW_KEY_UNKNOWN, Colors.RENDER));
-        registerModule(new Zoom("Zoom", Category.RENDER, "Optifine zoom.", GLFW.GLFW_KEY_UNKNOWN, Colors.RENDER));
+//        registerModule(new Zoom("Zoom", Category.RENDER, "Optifine zoom.", GLFW.GLFW_KEY_UNKNOWN, Colors.RENDER));
 
         /* MOVEMENT */
         registerModule(new Blink("Blink", Category.MOVEMENT, "Taki fake lag.", GLFW.GLFW_KEY_UNKNOWN, Colors.MOVEMENT));
@@ -150,6 +150,8 @@ public class ModuleManager {
         api.register(new EntityPlayerList());
         api.register(new Keystrokes());
         api.register(new Inventory());
+        api.register(new PerspectiveMod());
+        EventManager.register(new PerspectiveMod());
     }
 
     @EventTarget

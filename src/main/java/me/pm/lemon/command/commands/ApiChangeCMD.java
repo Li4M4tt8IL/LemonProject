@@ -2,6 +2,8 @@ package me.pm.lemon.command.commands;
 
 import me.pm.lemon.Main;
 import me.pm.lemon.command.Command;
+import me.pm.lemon.module.Module;
+import me.pm.lemon.module.modules.gui.ClickGui;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
@@ -15,7 +17,13 @@ public class ApiChangeCMD extends Command {
 
     @Override
     public String getDescription() {
-        return "Updatuje api manualnie.";
+        if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+            return "Controlls the api manually";
+        } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+
+            return "Updatuje api manualnie.";
+        }
+        return null;
     }
 
     @Override

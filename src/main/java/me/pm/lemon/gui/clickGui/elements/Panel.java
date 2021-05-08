@@ -1,11 +1,13 @@
-package me.pm.lemon.gui.testScreen.elements;
+package me.pm.lemon.gui.clickGui.elements;
 
-import me.pm.lemon.gui.testScreen.ClickGuiScreen;
+import me.pm.lemon.Main;
+import me.pm.lemon.gui.clickGui.ClickGuiScreen;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.utils.generalUtils.LemonColors;
 import me.pm.lemon.utils.generalUtils.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class Panel {
     private int dragOffY;
 
     public ClickGuiScreen parent;
+    public LogoIcon logoIcon;
+    public LogoText logoText;
 
     public Panel(ClickGuiScreen parent, int x, int y, int width, int height) {
         this.parent = parent;
@@ -71,25 +75,30 @@ public class Panel {
                 this.selectedModuleWindow = mw;
             }
         }
+        Identifier TEXTURE = new Identifier(Main.MOD_ID, "icon.png");
+        this.logoIcon = new LogoIcon(this, x+5, y+5, 256, 256, TEXTURE);
+        this.logoText = new LogoText(this, x+13, y+32);
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY) {
         Color bg = new Color(30, 30, 30);
         Color bg1 = new Color(48, 48, 48);
-
-//        if(lmHeld && mouseOver(x, y, x+width, y+height)) {
-////            dragOffX = mouseX - x;
-////            dragOffY = mouseY - y;
-//        }
-
+        
         if(lmHeld && mouseOver(x, y, x+5, y+5)) {
             x = Math.max(0, mouseX - dragOffX);
             y = Math.max(0, mouseY - dragOffY);
+
+            logoIcon.x = x*4;
+            logoIcon.y = y*4;
+
+            logoText.x = (x+32)/2;
+            logoText.y = (y+70)/2;
 
             int xPlus = x+28;
             int yPlus = y+100;
             for(ModuleWindow mw : moduleWindowList) {
                 mw.x = xPlus;
+
                 mw.y = yPlus;
                 if(mw.cat == Category.GUI) {
                     yPlus += 18;
@@ -134,6 +143,9 @@ public class Panel {
                 moduleWindow.selected = true;
             }
         }
+
+        this.logoIcon.render(matrixStack, mouseX, mouseY);
+//        this.logoText.render(matrixStack, mouseX, mouseY);
 
         lmDown = false;
         rmDown = false;

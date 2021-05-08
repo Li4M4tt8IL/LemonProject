@@ -4,6 +4,8 @@ import me.pm.lemon.Main;
 import me.pm.lemon.bindcommand.BindCommand;
 import me.pm.lemon.bindcommand.BindCommandManager;
 import me.pm.lemon.command.Command;
+import me.pm.lemon.module.Module;
+import me.pm.lemon.module.modules.gui.ClickGui;
 import me.pm.lemon.utils.LemonLogger;
 import org.lwjgl.glfw.GLFW;
 
@@ -18,14 +20,18 @@ public class BindCommandCMD extends Command {
 
     @Override
     public String getDescription() {
-        return "Zarzadzasz komendami.";
+        if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+            return "Auto text hotkey";
+        } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+            return "Zarzadzasz komendami.";
+        }
+        return null;
     }
 
     @Override
     public String getSyntax() {
         return PREFIX + "bindcommand add command " +
                 "\n| bindcommand remove command " +
-                "\n| bindcommand bind command keyCode " +
                 "\n| bindcommand list " +
                 "\n| Example: ;;bindcommand add /home;exp";
     }
@@ -35,7 +41,6 @@ public class BindCommandCMD extends Command {
         List<String> list = new ArrayList<>();
         list.add("add");
         list.add("remove");
-        list.add("bind");
         list.add("list");
         return list;
     }
@@ -50,45 +55,45 @@ public class BindCommandCMD extends Command {
         if(args[0].equalsIgnoreCase("add")) {
             for(BindCommand bindCommand : BindCommandManager.commands) {
                 if(bindCommand.getCommandName().equalsIgnoreCase(args[1].replace(";", " ").toLowerCase())) {
-                    LemonLogger.errorMessage("Command " + args[1] + " already exists!");
+                    if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+                        LemonLogger.errorMessage("Command",args[1] + " already exists!");
+                    } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+                        LemonLogger.errorMessage("Komenda",args[1] + " już istnieje!");
+                    }
                     return;
                 }
             }
             BindCommandManager.registerBindCommand(new BindCommand(-1, args[1].replace(";", " ").toLowerCase()));
-            LemonLogger.infoMessage("Added command " + args[1].replace(";", " ").toLowerCase());
+            if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+                LemonLogger.infoMessage("Added Command", args[1].replace(";", " ").toLowerCase());
+            } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+                LemonLogger.infoMessage("Dodano Komendę", args[1].replace(";", " ").toLowerCase());
+            }
             Main.ClientScreens.bindClickGuiScreen.resetWindows();
             return;
         } else if(args[0].equalsIgnoreCase("remove")) {
             for(BindCommand bindCommand : BindCommandManager.commands) {
                 if(bindCommand.getCommandName().equalsIgnoreCase(args[1].replace(";", " ").toLowerCase())) {
                     BindCommandManager.commands.remove(bindCommand);
-                    LemonLogger.infoMessage("Removed command " + args[1].replace(";", " ").toLowerCase());
+                    if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+                        LemonLogger.infoMessage("Removed Command",args[1].replace(";", " ").toLowerCase());
+                    } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+                        LemonLogger.infoMessage("Usunięto Komendę",args[1].replace(";", " ").toLowerCase());
+                    }
                     Main.ClientScreens.bindClickGuiScreen.resetWindows();
                     return;
                 }
             }
-            LemonLogger.errorMessage("Command " + args[1] + " is not existing!");
+            if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+                LemonLogger.errorMessage("Command ", args[1] + " does not exist!");
+            } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+                LemonLogger.errorMessage("Komenda ", args[1] + " nie istnieje!");
+            }
             return;
         } else if(args[0].equalsIgnoreCase("list")) {
             for(BindCommand bindCommand : BindCommandManager.commands) {
-                LemonLogger.infoMessage(bindCommand.getCommandName() + " | " + GLFW.glfwGetKeyName(bindCommand.getKeyCode(),
+                LemonLogger.noPrefixMessage(bindCommand.getCommandName() + " | " + GLFW.glfwGetKeyName(bindCommand.getKeyCode(),
                         GLFW.glfwGetKeyScancode(bindCommand.getKeyCode())));
-            }
-        } else if(args[0].equalsIgnoreCase("bind")) {
-            for(BindCommand bindCommand : BindCommandManager.commands) {
-                if(args[1].toLowerCase().equalsIgnoreCase(bindCommand.getCommandName().replace(" ", ";").toLowerCase())) {
-                   try {
-                       bindCommand.setKeyCode(Integer.parseInt(args[2]));
-                       Main.ClientScreens.bindClickGuiScreen.resetWindows();
-                   } catch (Exception e) {
-                       LemonLogger.errorMessage("This is not an number! Check if the keyCode is written correctly or bind the command through the bindClickGui!");
-                       e.printStackTrace();
-                   }
-                    return;
-            } else {
-                    LemonLogger.errorMessage("Command " + args[1] + " is not existing.");
-                    return;
-                }
             }
         }
     }

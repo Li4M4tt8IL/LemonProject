@@ -1,7 +1,7 @@
-package me.pm.lemon.gui.testScreen.settings;
+package me.pm.lemon.gui.clickGui.settings;
 
 import com.google.gson.JsonElement;
-import me.pm.lemon.gui.testScreen.elements.ModuleWindow;
+import me.pm.lemon.gui.clickGui.elements.ModuleWindow;
 import net.minecraft.client.util.math.MatrixStack;
 import org.apache.commons.lang3.tuple.Triple;
 

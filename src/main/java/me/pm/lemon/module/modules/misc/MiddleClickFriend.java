@@ -39,10 +39,10 @@ public class MiddleClickFriend extends Module {
                 if (e instanceof PlayerEntity) {
                     if (getFriendManager().isFriend(e.getName().getString())) {
                         getFriendManager().removeFriend(e.getName().getString());
-                        LemonLogger.infoMessage("Usunieto gracza \247b" + e.getName().getString() + "\247f ze znajomych!");
+                        LemonLogger.infoMessage("Friend Removed","Usunieto gracza \247b" + e.getName().getString() + "\247f ze znajomych!");
                     } else {
                         getFriendManager().addFriend(e.getName().getString());
-                        LemonLogger.infoMessage("Dodano gracza \247b" + e.getName().getString() + "\247f do znajomych!");
+                        LemonLogger.infoMessage("Friend Added","Dodano gracza \247b" + e.getName().getString() + "\247f do znajomych!");
 
                     }
 //                    if(mc.player.getName().getString().equals(Main.ClientInfo.clientCreators) || Main.debugMode) {

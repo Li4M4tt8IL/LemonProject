@@ -2,9 +2,9 @@ package me.pm.lemon.module.modules.world;
 
 import me.pm.lemon.event.EventTarget;
 import me.pm.lemon.event.events.TickEvent;
-import me.pm.lemon.gui.testScreen.settings.SettingMode;
-import me.pm.lemon.gui.testScreen.settings.SettingSlider;
-import me.pm.lemon.gui.testScreen.settings.SettingToggle;
+import me.pm.lemon.gui.clickGui.settings.SettingMode;
+import me.pm.lemon.gui.clickGui.settings.SettingSlider;
+import me.pm.lemon.gui.clickGui.settings.SettingToggle;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.utils.generalUtils.WorldUtils;

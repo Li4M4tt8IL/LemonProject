@@ -39,9 +39,8 @@ public class StopPanicCMD extends Command {
         if(Module.getModule(Panic.class).isToggled()) {
             Module.getModule(Panic.class).setToggled(false);
             Main.isPanic = false;
-            LemonLogger.infoMessage("Panic zostal wylaczony!");
         } else {
-            LemonLogger.infoMessage("Panic jest juz wylaczony!");
+            LemonLogger.infoMessage("LOL","Panic jest juz wylaczony!");
         }
     }
 }

@@ -1,4 +1,4 @@
-package me.pm.lemon.gui.testScreen.settings;
+package me.pm.lemon.gui.clickGui.settings;
 
 public class SettingRotate extends SettingToggle {
 

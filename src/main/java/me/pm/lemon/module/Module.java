@@ -2,7 +2,11 @@ package me.pm.lemon.module;
 
 import me.pm.lemon.event.EventManager;
 import me.pm.lemon.friends.FriendManager;
-import me.pm.lemon.gui.testScreen.settings.Setting;
+import me.pm.lemon.gui.clickGui.settings.Setting;
+import me.pm.lemon.module.modules.gui.Hud;
+import me.pm.lemon.notifications.Notification;
+import me.pm.lemon.notifications.NotificationManager;
+import me.pm.lemon.notifications.NotificationType;
 import me.pm.lemon.utils.FileManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -43,10 +47,16 @@ public class Module {
 
     public void onEnable() {
         EventManager.register(this);
+        if(Module.getModule(Hud.class).getSetting(8).asToggle().state) {
+            NotificationManager.show(new Notification(NotificationType.INFO, getName(), getName()+" enabled", 1));
+        }
     }
 
     public void onDisable() {
         EventManager.unregister(this);
+        if(Module.getModule(Hud.class).getSetting(8).asToggle().state) {
+            NotificationManager.show(new Notification(NotificationType.INFO, getName(), getName()+" disabled", 1));
+        }
     }
 
     public Module(String name, Category category, String description, int keyCode, Color color, Setting... settings) {
@@ -147,7 +157,7 @@ public class Module {
         return ModuleManager.modules.stream().filter(m -> m.getCategory().equals(cat)).collect(Collectors.toList());
     }
 
-    public List<me.pm.lemon.gui.testScreen.settings.Setting> getSettings() {
+    public List<me.pm.lemon.gui.clickGui.settings.Setting> getSettings() {
         return settings;
     }
 

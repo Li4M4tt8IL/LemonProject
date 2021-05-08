@@ -10,8 +10,7 @@ import me.pm.lemon.bindcommand.BindCommandManager;
 import me.pm.lemon.command.Command;
 import me.pm.lemon.friends.Friend;
 import me.pm.lemon.friends.FriendManager;
-import me.pm.lemon.gui.testScreen.settings.Setting;
-import me.pm.lemon.gui.window.Window;
+import me.pm.lemon.gui.clickGui.settings.Setting;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.ModuleManager;
 
@@ -220,7 +219,7 @@ public class FileManager {
             }
             out.close();
         } catch(Exception e) {
-            LemonLogger.errorMessage("Failed to update the bind command list state");
+            LemonLogger.errorMessage("File Error","Failed to update the bind command list state");
             e.printStackTrace();
             return;
         }
@@ -247,7 +246,7 @@ public class FileManager {
             }
             br.close();
         } catch(Exception e) {
-            LemonLogger.errorMessage("Failed to load the bind command list state");
+            LemonLogger.errorMessage("File Error","Failed to load the bind command list state");
             e.printStackTrace();
             return;
         }

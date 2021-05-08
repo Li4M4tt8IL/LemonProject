@@ -3,7 +3,7 @@ package me.pm.lemon.module.modules.movement;
 import me.pm.lemon.event.EventTarget;
 import me.pm.lemon.event.events.SendPacketEvent;
 import me.pm.lemon.event.events.TickEvent;
-import me.pm.lemon.gui.testScreen.settings.*;
+import me.pm.lemon.gui.clickGui.settings.*;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.utils.PlayerCopyEntity;

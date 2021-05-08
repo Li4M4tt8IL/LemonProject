@@ -29,7 +29,7 @@ public class UpdateChecker {
                     return false;
                 }
             } catch(Exception e) {
-                LemonLogger.errorMessage("Failed to load the mod version!");
+                LemonLogger.errorMessage("GitHub Error","Failed to load the mod version!");
                 e.printStackTrace();
                 version = null;
                 return false;
@@ -51,7 +51,7 @@ public class UpdateChecker {
                     Main.ClientInfo.clientCreators = curAuthor;
                 }
             } catch(Exception e) {
-                LemonLogger.errorMessage("Failed to load the mod author!");
+                LemonLogger.errorMessage("GitHub Error","Failed to load the mod author!");
                 e.printStackTrace();;
             }
         }

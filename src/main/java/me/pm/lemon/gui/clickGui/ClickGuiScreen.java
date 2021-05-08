@@ -1,16 +1,9 @@
-package me.pm.lemon.gui.testScreen;
+package me.pm.lemon.gui.clickGui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import me.pm.lemon.Main;
-import me.pm.lemon.gui.testScreen.elements.Panel;
-import net.minecraft.client.MinecraftClient;
+import me.pm.lemon.gui.clickGui.elements.Panel;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ClickGuiScreen extends Screen {
     public ClickGuiScreen() {
@@ -40,22 +33,6 @@ public class ClickGuiScreen extends Screen {
         renderBackground(matrix);
 
         panel.render(matrix, mouseX, mouseY);
-        Identifier TEXTURE = new Identifier(Main.MOD_ID, "icon.png");
-
-        GL11.glPushMatrix();
-        GL11.glScalef(0.25F, 0.25F, 0F);
-        MinecraftClient.getInstance().getTextureManager().bindTexture(TEXTURE);
-        this.drawTexture(matrix, panel.x+5, panel.y+16, 0, 0, 256, 256);
-        GL11.glPopMatrix();
-
-        RenderSystem.pushMatrix();
-//        RenderSystem.translatef((float)(this.width / 2 + 90), 70.0F, 0.0F);
-        RenderSystem.rotatef(-20.0F, 0.0F, 0.0F, 1.0F);
-        float h = 1.8F - MathHelper.abs(MathHelper.sin((float)(Util.getMeasuringTimeMs() % 1000L) / 1000.0F * 6.2831855F) * 0.1F);
-        h = h * 100.0F / (float)(this.textRenderer.getWidth("Lemon") + 64);
-        RenderSystem.scalef(h, h, h);
-        drawCenteredString(matrix, this.textRenderer, "Lemon", panel.x+2, panel.y+35, 16776960);
-        RenderSystem.popMatrix();
 
         panel.updateKeys(mouseX, mouseY, keyDown, lmDown, rmDown, mwDown, lmHeld, mwScroll);
 

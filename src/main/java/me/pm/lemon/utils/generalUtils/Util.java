@@ -1,6 +1,6 @@
 package me.pm.lemon.utils.generalUtils;
 
-import me.pm.lemon.gui.testScreen.settings.SettingRotate;
+import me.pm.lemon.gui.clickGui.settings.SettingRotate;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.modules.combat.CrystalAura;
 import net.minecraft.block.Block;

@@ -1,7 +1,6 @@
 package me.pm.lemon.module.modules.gui;
 
-import me.pm.lemon.Main;
-import me.pm.lemon.gui.testScreen.settings.SettingToggle;
+import me.pm.lemon.gui.clickGui.settings.SettingToggle;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
 

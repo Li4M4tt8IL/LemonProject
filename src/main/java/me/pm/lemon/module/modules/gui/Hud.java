@@ -1,10 +1,13 @@
 package me.pm.lemon.module.modules.gui;
 
-import me.pm.lemon.gui.testScreen.settings.SettingMode;
-import me.pm.lemon.gui.testScreen.settings.SettingSlider;
-import me.pm.lemon.gui.testScreen.settings.SettingToggle;
+import me.pm.lemon.event.EventTarget;
+import me.pm.lemon.event.events.DrawOverlayEvent;
+import me.pm.lemon.gui.clickGui.settings.SettingMode;
+import me.pm.lemon.gui.clickGui.settings.SettingSlider;
+import me.pm.lemon.gui.clickGui.settings.SettingToggle;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
+import me.pm.lemon.notifications.NotificationManager;
 
 import java.awt.*;
 
@@ -44,6 +47,13 @@ public class Hud extends Module {
                         new SettingToggle("Players", true)
                 ),
                 new SettingToggle("Keystrokes", true),
-                new SettingToggle("Inventory", true));
+                new SettingToggle("Inventory", true),
+                new SettingToggle("Module Notifications", false),
+                new SettingToggle("Other Notifications", true));
+    }
+
+    @EventTarget
+    public void onRender(DrawOverlayEvent event) {
+        NotificationManager.render();
     }
 }

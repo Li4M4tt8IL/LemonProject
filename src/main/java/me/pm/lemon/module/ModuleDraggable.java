@@ -2,7 +2,7 @@ package me.pm.lemon.module;
 
 import me.pm.lemon.gui.hud.IRenderer;
 import me.pm.lemon.gui.hud.ScreenPosition;
-import me.pm.lemon.gui.testScreen.settings.Setting;
+import me.pm.lemon.gui.clickGui.settings.Setting;
 import me.pm.lemon.utils.FileHelper;
 import net.minecraft.client.MinecraftClient;
 

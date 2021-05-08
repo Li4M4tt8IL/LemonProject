@@ -1,9 +1,9 @@
-package me.pm.lemon.gui.testScreen.settings;
+package me.pm.lemon.gui.clickGui.settings;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import me.pm.lemon.gui.testScreen.elements.ModuleWindow;
+import me.pm.lemon.gui.clickGui.elements.ModuleWindow;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.BufferBuilder;

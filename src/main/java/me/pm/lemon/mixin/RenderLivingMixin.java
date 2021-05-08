@@ -24,7 +24,7 @@ public class RenderLivingMixin<T extends LivingEntity> {
                 GL11.glPolygonOffset(1.0f, -1000000.0f);
             }
         } catch (Exception e) {
-            LemonLogger.errorMessage("Something went wrong! " + e.getMessage());
+            LemonLogger.errorMessage("Render Error","Something went wrong! " + e.getMessage());
         }
 
     }
@@ -37,7 +37,7 @@ public class RenderLivingMixin<T extends LivingEntity> {
                 GL11.glDisable(32823);
             }
         } catch (Exception e) {
-            LemonLogger.errorMessage("Something went wrong! " + e.getMessage());
+            LemonLogger.errorMessage("Render Error","Something went wrong! " + e.getMessage());
         }
     }
 }

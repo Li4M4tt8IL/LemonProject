@@ -37,7 +37,7 @@ public class HelpCMD extends Command {
         for(Command cmd : CommandManager.getCommands()) {
             if(!cmd.isCommandEnabled()) return;
             LemonLogger.noPrefixMessage("\n");
-            LemonLogger.infoMessage(cmd.getSyntax() + " | " + cmd.getDescription());
+            LemonLogger.noPrefixMessage(cmd.getSyntax() + " | " + cmd.getDescription());
         }
     }
 }

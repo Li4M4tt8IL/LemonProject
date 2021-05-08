@@ -1,9 +1,9 @@
-package me.pm.lemon.gui.testScreen.settings;
+package me.pm.lemon.gui.clickGui.settings;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import me.pm.lemon.gui.testScreen.elements.ModuleWindow;
+import me.pm.lemon.gui.clickGui.elements.ModuleWindow;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import org.apache.commons.lang3.tuple.Triple;
@@ -68,9 +68,9 @@ public class SettingToggle extends Setting {
 
                 int h = y + 12;
                 for (Setting s : children) {
-                    s.render(window, matrix, x + 2, h, len - 2);
+                    s.render(window, matrix, x + 2, h, s instanceof SettingColor ? (len - 2) /2 : len -2);
 
-                    h += s.getHeight(len - 2);
+                    h += s.getHeight(s instanceof SettingColor ? (len - 2) /2 : len -2);
                 }
             }
 

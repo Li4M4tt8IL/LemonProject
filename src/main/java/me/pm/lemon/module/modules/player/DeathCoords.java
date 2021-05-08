@@ -21,7 +21,7 @@ public class DeathCoords extends Module {
             int y = (int) mc.player.getY();
             int z = (int) mc.player.getZ();
 
-            LemonLogger.infoMessage("Coords of death: " + x + " " + y + " " + z);
+            LemonLogger.infoMessage("Death!","Coords of death: " + x + " " + y + " " + z);
         }
     }
 }

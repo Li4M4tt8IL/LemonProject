@@ -42,12 +42,12 @@ public class VClip extends Command {
 
                 double blocks = Double.parseDouble(args[0]);
                 player.updatePosition(player.getX(), player.getY() + blocks, player.getZ());
-                LemonLogger.infoMessage("Success!");
+                LemonLogger.infoMessage("Success!","If nothing happened tho, there's an AC.");
             } else {
-                LemonLogger.infoMessage("This commad requires just one argument!");
+                LemonLogger.infoMessage("Invalid Syntax!","This command requires just one argument!");
             }
         } catch (Exception e) {
-            LemonLogger.errorMessage("Something went wrong! " + e.getMessage());
+            LemonLogger.errorMessage("Error", e.getMessage());
         }
     }
 }

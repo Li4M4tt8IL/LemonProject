@@ -1,4 +1,4 @@
-package me.pm.lemon.gui.testScreen.elements;
+package me.pm.lemon.gui.clickGui.elements;
 
 import me.pm.lemon.module.Module;
 import me.pm.lemon.utils.FileManager;
@@ -62,11 +62,11 @@ public class ModuleButton {
 
             if(keyDown != -1) {
                 if (keyDown != GLFW.GLFW_KEY_DELETE) {
-                    LemonLogger.infoMessage("Bound '" + mod.getName() + "'" + " to '" + GLFW.glfwGetKeyName(keyDown, GLFW.glfwGetKeyScancode(keyDown)) + "'");
+                    LemonLogger.infoMessage("Bound ","'" + mod.getName() + "'" + " to '" + GLFW.glfwGetKeyName(keyDown, GLFW.glfwGetKeyScancode(keyDown)) + "'");
                     mod.setKeyCode(keyDown);
                     FileManager.saveModules();
                 } else {
-                    LemonLogger.infoMessage("Unbound '" + mod.getName() + "'");
+                    LemonLogger.infoMessage("Unbound ","'" + mod.getName() + "'");
                     mod.setKeyCode(GLFW.GLFW_KEY_UNKNOWN);
                     FileManager.saveModules();
                 }

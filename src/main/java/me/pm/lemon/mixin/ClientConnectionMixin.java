@@ -63,7 +63,7 @@ public class ClientConnectionMixin {
         if (!Module.getModule(AntiChunkBan.class).isToggled()) return;
 
         if (!(throwable_1 instanceof PacketEncoderException)) {
-            LemonLogger.warningMessage("Canceled Defect Packet: " + throwable_1);
+            LemonLogger.warningMessage("Packet Warning","Canceled Defect Packet: " + throwable_1);
             callback.cancel();
         }
     }

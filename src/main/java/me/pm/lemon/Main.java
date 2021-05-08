@@ -7,7 +7,7 @@ import me.pm.lemon.event.EventManager;
 import me.pm.lemon.friends.FriendManager;
 import me.pm.lemon.gui.bindcommandClickGui.BindClickGuiScreen;
 import me.pm.lemon.gui.hud.HUDManager;
-import me.pm.lemon.gui.testScreen.ClickGuiScreen;
+import me.pm.lemon.gui.clickGui.ClickGuiScreen;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.ModuleManager;
 import me.pm.lemon.module.modules.gui.BindCommandEditor;
@@ -19,7 +19,11 @@ import me.pm.lemon.module.modules.player.RecordingMode;
 import me.pm.lemon.module.modules.render.Zoom;
 import me.pm.lemon.utils.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +45,11 @@ public class Main implements ModInitializer {
         public static ClickGuiScreen testScreen;
     }
 
+    public static class ClientKeys {
+        public static KeyBinding zoomKey;
+        public static KeyBinding freelookKey;
+    }
+
     public static final String MOD_ID = "lemon";
 
     public static boolean isPanic = false;
@@ -54,6 +63,8 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ClientKeys.zoomKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("Zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "Misc"));
+        ClientKeys.freelookKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("Free Look", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "Misc"));
         FileHelper.init();
 
         bindCommandManager = new BindCommandManager();
@@ -111,9 +122,6 @@ public class Main implements ModInitializer {
         if(Objects.requireNonNull(Module.getModule(BindCommandEditor.class)).isToggled()) {
             Objects.requireNonNull(Module.getModule(BindCommandEditor.class)).toggle();
         }
-        if(Objects.requireNonNull(Module.getModule(Zoom.class)).isToggled()) {
-            Objects.requireNonNull(Module.getModule(Zoom.class)).toggle();
-        }
         FileManager.updateFriendList();
         FileManager.updateBindCommands();
 //        FileManager.saveAlts();
@@ -137,7 +145,7 @@ public class Main implements ModInitializer {
     public static void checkIfValid() {
         assert MinecraftClient.getInstance().player != null;
         if(!ClientInfo.clientAuth.contains(MinecraftClient.getInstance().player.getName().getString())) {
-            LemonLogger.errorMessage("You are not permitted to use this mod");
+            LemonLogger.errorMessage("Auth Error","You are not permitted to use this mod");
             Objects.requireNonNull(Module.getModule(Panic.class)).toggle();
         }
     }

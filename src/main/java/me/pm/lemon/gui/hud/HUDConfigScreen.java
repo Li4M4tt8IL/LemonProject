@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -56,7 +57,11 @@ public class HUDConfigScreen extends Screen {
 
             renderer.renderDummy(pos);
 
-            drawHollowRect(matrixStack, pos.getAbsoluteX(), pos.getAbsoluteY(), renderer.getWidth(), renderer.getHeight(), 0xFF00FFFF);
+            if(selectedRenderer.isPresent() && selectedRenderer.get().equals(renderer)) {
+                drawHollowRect(matrixStack, pos.getAbsoluteX(), pos.getAbsoluteY(), renderer.getWidth(), renderer.getHeight(), 0xFF0000FF);
+            } else {
+                drawHollowRect(matrixStack, pos.getAbsoluteX(), pos.getAbsoluteY(), renderer.getWidth(), renderer.getHeight(), 0xFF00FFFF);
+            }
         }
     }
 
@@ -80,6 +85,22 @@ public class HUDConfigScreen extends Screen {
                 entry.getKey().save(entry.getValue());
             });
             MinecraftClient.getInstance().openScreen(null);
+        } else if(keyCode == GLFW.GLFW_KEY_UP) {
+            if(selectedRenderer.isPresent()) {
+                moveSelectedRenderBy(0, -1);
+            }
+        } else if(keyCode == GLFW.GLFW_KEY_DOWN) {
+            if(selectedRenderer.isPresent()) {
+                moveSelectedRenderBy(0, 1);
+            }
+        } else if(keyCode == GLFW.GLFW_KEY_RIGHT) {
+            if(selectedRenderer.isPresent()) {
+                moveSelectedRenderBy(-1, 0);
+            }
+        } else if(keyCode == GLFW.GLFW_KEY_LEFT) {
+            if(selectedRenderer.isPresent()) {
+                moveSelectedRenderBy(1, 0);
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 package me.pm.lemon.command;
 
 import me.pm.lemon.command.commands.*;
+import me.pm.lemon.module.Module;
+import me.pm.lemon.module.modules.gui.ClickGui;
 import me.pm.lemon.utils.LemonLogger;
 
 import java.util.ArrayList;
@@ -40,14 +42,23 @@ public class CommandManager {
                 try {
                     c.onCommand(args, args.split(" "));
                 } catch (Exception e) {
-                    LemonLogger.errorMessage("Invalid Command Usage!");
-                    LemonLogger.infoMessage(c.getSyntax());
+                    if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+                        LemonLogger.errorMessage("Command","Invalid Usage!");
+                        LemonLogger.infoMessage("Proper syntax", c.getSyntax());
+                    } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+                        LemonLogger.errorMessage("Komenda","Złe użycie!!");
+                        LemonLogger.infoMessage("Poprawne użycie:", c.getSyntax());
+                    }
                     e.printStackTrace();
                 }
                 return;
             }
         }
-        LemonLogger.warningMessage("Command not found!");
+        if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+            LemonLogger.warningMessage("Command", "Not found!");
+        } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+            LemonLogger.warningMessage("Komenda", "Nie znaleziona!");
+        }
     }
 
 }

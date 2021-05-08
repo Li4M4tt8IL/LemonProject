@@ -60,10 +60,10 @@ public class XrayCMD extends Command {
 
             if (args[0].equalsIgnoreCase("add")) {
                 if (Registry.BLOCK.get(new Identifier(block)) == Blocks.AIR) {
-                    LemonLogger.errorMessage("Invalid Block: " + args[1]);
+                    LemonLogger.errorMessage("Invalid Block: " , args[1]);
                     return;
                 } else if (lines.contains(block)) {
-                    LemonLogger.errorMessage("Block is already added!");
+                    LemonLogger.errorMessage("Error","Block is already added!");
                     return;
                 }
 
@@ -74,7 +74,7 @@ public class XrayCMD extends Command {
                     xray.toggle();
                 }
 
-                LemonLogger.infoMessage("Added Block: " + args[1]);
+                LemonLogger.infoMessage("Added","Block: " + args[1]);
 
             } else if (args[0].equalsIgnoreCase("remove")) {
                 if (lines.contains(block)) {
@@ -91,21 +91,21 @@ public class XrayCMD extends Command {
                         xray.toggle();
                     }
 
-                    LemonLogger.infoMessage("Removed Block: " + args[1]);
+                    LemonLogger.infoMessage("Removed ","Block: " + args[1]);
                 } else {
-                    LemonLogger.errorMessage("Block Not In List: " + args[1]);
+                    LemonLogger.errorMessage("Block ","Not In List: " + args[1]);
                 }
             }
         } else if (args[0].equalsIgnoreCase("clear")) {
             FileHelper.createEmptyFile("xray.txt");
-            LemonLogger.infoMessage("Cleared Xray Blocks");
+            LemonLogger.infoMessage("Cleared ","Xray Blocks");
         } else if (args[0].equalsIgnoreCase("list")) {
             String s = "";
             for (String l : lines) {
                 s += "\n\u00a76" + l;
             }
 
-            LemonLogger.infoMessage(s);
+            LemonLogger.noPrefixMessage(s);
         }
     }
 }

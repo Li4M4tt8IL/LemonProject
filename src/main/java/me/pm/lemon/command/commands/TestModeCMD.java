@@ -42,6 +42,6 @@ public class TestModeCMD extends Command {
 //            PMLogger.infoMessage("Test mode jest juz wylaczony!");
 //        }
         List<String> testList = new ArrayList<>();
-        if(testList.contains("abc")) LemonLogger.infoMessage("wtf");
+        if(testList.contains("abc")) LemonLogger.infoMessage("What","That shouldn't be there.");
     }
 }

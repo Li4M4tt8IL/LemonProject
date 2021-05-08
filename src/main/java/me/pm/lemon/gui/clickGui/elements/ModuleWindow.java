@@ -1,8 +1,9 @@
-package me.pm.lemon.gui.testScreen.elements;
+package me.pm.lemon.gui.clickGui.elements;
 
 import com.google.common.collect.Lists;
 import me.pm.lemon.Main;
-import me.pm.lemon.gui.testScreen.settings.Setting;
+import me.pm.lemon.gui.clickGui.settings.Setting;
+import me.pm.lemon.gui.clickGui.settings.SettingColor;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.modules.gui.ClickGui;
@@ -111,6 +112,8 @@ public class ModuleWindow {
                         list.add("This utility mod is still in development,");
                         list.add("this means that I will add multiple features, patches");
                         list.add("and updates until the end of the project.");
+                        list.add("");
+                        list.add("Możesz zmienić język moda wchodząc w ClickGUI>Settings");
                     } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
                         list.add("Autor: " + Main.ClientInfo.clientCreators);
                         list.add("Aby włączyć moduł musisz klinąć na niego lewym");
@@ -128,6 +131,8 @@ public class ModuleWindow {
                         list.add("to znaczy, że mod będzie otrzymywać nowe updaty/poprawki,");
                         list.add("oraz będzie aktualizowany do najnowszej wersji Minecrafta,");
                         list.add("aż do zakończenia projektu.");
+                        list.add("");
+                        list.add("You can change the mod language in ClickGUI>Settings");
                     }
 
                     int y1 = parent.y+30;
@@ -172,7 +177,7 @@ public class ModuleWindow {
                     int settingY = parent.y+30;
                     int settingWidth = 100;
                     for(Setting setting : selectedButton.mod.getSettings()) {
-                        setting.render(this, matrixStack, settingX, settingY, settingWidth);
+                        setting.render(this, matrixStack, settingX, settingY, setting instanceof SettingColor ? settingWidth / 2 : settingWidth);
                         settingY += setting.getHeight(settingWidth);
                         if(settingY >= 225) {
                             settingY = parent.y+35;
