@@ -86,22 +86,21 @@ public class ModuleList extends ModuleDraggable {
                 if (getModule(Hud.class).getSetting(1).asToggle().getChild(3).asMode().mode == 1) {
                     moduleList.sort(Comparator.comparingInt(mod -> mc.textRenderer.getWidth(Util.capitalizeFirstLetter(mod))));
                 }
+                final int[] counter = {1};
                 for (String s : moduleList) {
                     boolean rainbow = getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().state;
                     Color moduleColor = Objects.requireNonNull(Module.getModuleByDisplayName(s)).getColor();
                     if(getModule(Hud.class).getSetting(1).asToggle().getChild(4).asMode().mode == 1) {
                         int right = pos.getAbsoluteX() + 5;
                         if (getModule(Hud.class).getSetting(1).asToggle().getChild(1).asToggle().state) {
-                            RenderUtils.drawRect(right + mc.textRenderer.getWidth(s) + 2, yCount + 9, right  - 2, yCount - 1, new Color(0, 0, 0, 100).getRGB());
+                            RenderUtils.drawRect(right + mc.textRenderer.getWidth(s) + 2, yCount + 9, right  - 2, yCount - 1,
+                                    new Color(0, 0, 0, 100).getRGB());
                         }
                         if (getModule(Hud.class).getSetting(1).asToggle().getChild(2).asToggle().state) {
-                            RenderUtils.drawRect(right + mc.textRenderer.getWidth(s) + 3, yCount + 9, right + mc.textRenderer.getWidth(s) + 2, yCount - 1, rainbow ? Util.getRainbow((float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(0).asSlider().getValue(),
-                                    (float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(1).asSlider().getValue(),
-                                    getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(2).asSlider().getValue(), 0) : moduleColor.getRGB());
+                            RenderUtils.drawRect(right + mc.textRenderer.getWidth(s) + 3, yCount + 9, right + mc.textRenderer.getWidth(s) + 2, yCount - 1,
+                                    rainbow ? Util.rainbow(counter[0] * 500) : moduleColor.getRGB());
                         }
-                        mc.textRenderer.drawWithShadow(matrixStack, s, right, yCount, rainbow ? Util.getRainbow((float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(0).asSlider().getValue(),
-                                (float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(1).asSlider().getValue(),
-                                getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(2).asSlider().getValue(), 0) : moduleColor.getRGB());
+                        mc.textRenderer.drawWithShadow(matrixStack, s, right, yCount, rainbow ? Util.rainbow(counter[0] * 500) : moduleColor.getRGB());
                         yCount += 10;
                     } else if(getModule(Hud.class).getSetting(1).asToggle().getChild(4).asMode().mode == 0) {
                         int right = pos.getAbsoluteX() + 5 + MinecraftClient.getInstance().textRenderer.getWidth(moduleList.get(0));
@@ -109,14 +108,12 @@ public class ModuleList extends ModuleDraggable {
                             RenderUtils.drawRect(right + 2, yCount + 9, right - mc.textRenderer.getWidth(s) - 2, yCount - 1, new Color(0, 0, 0, 100).getRGB());
                         }
                         if (getModule(Hud.class).getSetting(1).asToggle().getChild(2).asToggle().state) {
-                            RenderUtils.drawRect(right - mc.textRenderer.getWidth(s) - 2, yCount + 9, right - mc.textRenderer.getWidth(s) - 3, yCount - 1, rainbow ? Util.getRainbow((float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(0).asSlider().getValue(),
-                                    (float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(1).asSlider().getValue(),
-                                    getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(2).asSlider().getValue(), 0) : moduleColor.getRGB());
+                            RenderUtils.drawRect(right - mc.textRenderer.getWidth(s) - 2, yCount + 9, right - mc.textRenderer.getWidth(s) - 3, yCount - 1,
+                                    rainbow ? Util.rainbow(counter[0] * 500) : moduleColor.getRGB());
                         }
-                        mc.textRenderer.drawWithShadow(matrixStack, s, right - mc.textRenderer.getWidth(s), yCount, rainbow ? Util.getRainbow((float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(0).asSlider().getValue(),
-                                (float) getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(1).asSlider().getValue(),
-                                getModule(Hud.class).getSetting(1).asToggle().getChild(0).asToggle().getChild(2).asSlider().getValue(), 0) : moduleColor.getRGB());
+                        mc.textRenderer.drawWithShadow(matrixStack, s, right - mc.textRenderer.getWidth(s), yCount, rainbow ? Util.rainbow(counter[0] * 500) : moduleColor.getRGB());
                         yCount += 10;
+                        counter[0]++;
                     }
                 }
             }

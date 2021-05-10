@@ -23,7 +23,7 @@ public class Notification {
         this.message = message;
 
         fadedIn = 200 * length;
-        fadeOut = fadedIn + 2000 * length;
+        fadeOut = fadedIn + (MinecraftClient.getInstance().textRenderer.getWidth(message) * 20) * length;
         end = fadeOut + fadedIn;
     }
 
@@ -73,10 +73,7 @@ public class Notification {
 //        RenderUtils.drawRect(scaledWidth - offset, scaledHeight - 5 - height, scaledWidth - offset + 4, scaledHeight - 5, color1.getRGB());
 
         RenderUtils.drawRect(scaledWidth - offset, scaledHeight - 5 - height, scaledWidth, scaledHeight - 5, color.getRGB()); // BG
-
         RenderUtils.drawRect(scaledWidth - offset, scaledHeight - 5 - height, scaledWidth - offset + 4, scaledHeight - 5, color1.getRGB());
-
-
 
         fontRenderer.draw(new MatrixStack(), title, (int) (scaledWidth - offset + 8), scaledHeight - 2 - height, -1);
         fontRenderer.draw(new MatrixStack(), message, (int) (scaledWidth - offset + 8), scaledHeight - 15, -1);

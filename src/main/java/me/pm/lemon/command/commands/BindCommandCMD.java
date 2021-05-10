@@ -69,7 +69,7 @@ public class BindCommandCMD extends Command {
             } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
                 LemonLogger.infoMessage("Dodano Komendę", args[1].replace(";", " ").toLowerCase());
             }
-            Main.ClientScreens.bindClickGuiScreen.resetWindows();
+            Main.ClientScreens.bindClickGuiScreen.panel.resetButtons();
             return;
         } else if(args[0].equalsIgnoreCase("remove")) {
             for(BindCommand bindCommand : BindCommandManager.commands) {
@@ -80,7 +80,7 @@ public class BindCommandCMD extends Command {
                     } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
                         LemonLogger.infoMessage("Usunięto Komendę",args[1].replace(";", " ").toLowerCase());
                     }
-                    Main.ClientScreens.bindClickGuiScreen.resetWindows();
+                    Main.ClientScreens.bindClickGuiScreen.panel.resetButtons();
                     return;
                 }
             }

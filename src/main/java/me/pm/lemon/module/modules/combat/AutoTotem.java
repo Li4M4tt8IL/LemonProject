@@ -2,6 +2,8 @@ package me.pm.lemon.module.modules.combat;
 
 import me.pm.lemon.event.EventTarget;
 import me.pm.lemon.event.events.TickEvent;
+import me.pm.lemon.gui.clickGui.settings.SettingSlider;
+import me.pm.lemon.gui.clickGui.settings.SettingToggle;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
 import net.minecraft.item.ItemStack;
@@ -14,21 +16,47 @@ import java.util.List;
 
 public class AutoTotem extends Module {
     public AutoTotem(String name, Category category, String description, int keyCode, Color color) {
-        super(name, category, description, keyCode, color);
+        super(name, category, description, keyCode, color,
+                new SettingToggle("Natural Swap",true));
     }
 
     private int timer;
 
+    private int tickCounter = 0;
+
     @EventTarget
     public void onTick(TickEvent event) {
-            if (timer > 0) {
-                timer--;
-                return;
-            }
+        if (timer > 0) {
+            timer--;
+            return;
+        }
+        if(getSetting(0).asToggle().state) {
+            if(tickCounter / 20 >= 20) {
+                List<ItemStack> inv;
+                assert mc.player != null;
+                ItemStack offhand = mc.player.getOffHandStack();
 
+                int inventoryIndex;
+
+                inv = mc.player.inventory.main;
+                for (inventoryIndex = 0; inventoryIndex < inv.size(); inventoryIndex++) {
+                    if (inv.get(inventoryIndex) != ItemStack.EMPTY) { //ItemStack.EMPTY
+                        if (offhand.getItem() != Items.TOTEM_OF_UNDYING) { //ItemStack.TOTEM
+                            if (inv.get(inventoryIndex).getItem() == Items.TOTEM_OF_UNDYING) { //ItemStack.TOTEM
+                                replaceTotem(inventoryIndex);
+                                break;
+                            }
+                        }
+                    }
+                    timer = 3;
+                }
+                tickCounter = 0;
+            }
+            tickCounter++;
+        } else {
             List<ItemStack> inv;
-        assert mc.player != null;
-        ItemStack offhand = mc.player.getOffHandStack();
+            assert mc.player != null;
+            ItemStack offhand = mc.player.getOffHandStack();
 
             int inventoryIndex;
 
@@ -44,6 +72,7 @@ public class AutoTotem extends Module {
                 }
                 timer = 3;
             }
+        }
     }
 
     public void replaceTotem(int inventoryIndex) {

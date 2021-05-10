@@ -58,7 +58,7 @@ public class HUDConfigScreen extends Screen {
             renderer.renderDummy(pos);
 
             if(selectedRenderer.isPresent() && selectedRenderer.get().equals(renderer)) {
-                drawHollowRect(matrixStack, pos.getAbsoluteX(), pos.getAbsoluteY(), renderer.getWidth(), renderer.getHeight(), 0xFF0000FF);
+                drawHollowRect(matrixStack, pos.getAbsoluteX(), pos.getAbsoluteY(), renderer.getWidth(), renderer.getHeight(), 0xCAE00FFF);
             } else {
                 drawHollowRect(matrixStack, pos.getAbsoluteX(), pos.getAbsoluteY(), renderer.getWidth(), renderer.getHeight(), 0xFF00FFFF);
             }
@@ -95,11 +95,11 @@ public class HUDConfigScreen extends Screen {
             }
         } else if(keyCode == GLFW.GLFW_KEY_RIGHT) {
             if(selectedRenderer.isPresent()) {
-                moveSelectedRenderBy(-1, 0);
+                moveSelectedRenderBy(1, 0);
             }
         } else if(keyCode == GLFW.GLFW_KEY_LEFT) {
             if(selectedRenderer.isPresent()) {
-                moveSelectedRenderBy(1, 0);
+                moveSelectedRenderBy(-1, 0);
             }
         }
     }

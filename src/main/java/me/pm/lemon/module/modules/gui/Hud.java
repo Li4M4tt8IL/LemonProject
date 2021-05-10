@@ -16,11 +16,7 @@ public class Hud extends Module {
         super(name, category, description, keyCode, color,
                 new SettingToggle("Welcome Message", true),
                 new SettingToggle("Module List", true).withDesc("Shows the toggled modules list").withChildren(
-                        new SettingToggle("Rainbow", true).withDesc("RaInBoW cOlOrS").withChildren(
-                                new SettingSlider("Saturation", 0.01, 1, 0.5f, 2),
-                                new SettingSlider("Brightness", 0.01, 1, 0.5f, 2),
-                                new SettingSlider("Speed", 1, 25, 10, 0)
-                        ),
+                        new SettingToggle("Rainbow", true).withDesc("RaInBoW cOlOrS"),
                         new SettingToggle("Background", true).withDesc("Draws a gray-ich background to the list"),
                         new SettingToggle("Separator", true).withDesc("Draws a separator"),
                         new SettingMode("Sorting", "Up-Down", "Down-Up", "Category"),

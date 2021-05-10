@@ -65,6 +65,16 @@ public class HUDManager {
         if(pos == null) {
             pos = ScreenPosition.fromRelativePosition(0.5, 0.5);
         }
+        if(pos.getAbsoluteX()+renderer.getWidth() >= mc.getWindow().getScaledWidth()) {
+            int screenWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+            int screenHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
+
+            int absoluteX = Math.max(0, Math.min(pos.getAbsoluteX(), Math.max(screenWidth - renderer.getWidth(), 0)));
+            int absoluteY = Math.max(0, Math.min(pos.getAbsoluteY(), Math.max(screenHeight - renderer.getHeight(), 0)));
+
+            pos.setAbsolute(absoluteX, absoluteY);
+        }
+
         renderer.render(pos);
     }
 }

@@ -118,6 +118,12 @@ public class Util {
         return Color.HSBtoRGB((float) (rainbowState / 360.0), sat, bri);
     }
 
+    public static int rainbow(int delay) {
+        double rainbowState = Math.ceil((System.currentTimeMillis() + delay) / 20);
+        rainbowState %= 360;
+        return Color.getHSBColor((float) (rainbowState / 360.0f), 0.8f, 0.7f).getRGB();
+    }
+
     public static float[] intToFloat(int color) {
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;

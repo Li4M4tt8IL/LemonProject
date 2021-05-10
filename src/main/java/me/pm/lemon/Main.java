@@ -5,7 +5,7 @@ import me.pm.lemon.bindcommand.BindCommandManager;
 import me.pm.lemon.command.CommandManager;
 import me.pm.lemon.event.EventManager;
 import me.pm.lemon.friends.FriendManager;
-import me.pm.lemon.gui.bindcommandClickGui.BindClickGuiScreen;
+import me.pm.lemon.gui.bindcommandGui.BindCommandScreen;
 import me.pm.lemon.gui.hud.HUDManager;
 import me.pm.lemon.gui.clickGui.ClickGuiScreen;
 import me.pm.lemon.module.Module;
@@ -16,7 +16,6 @@ import me.pm.lemon.module.modules.gui.ClickGui;
 import me.pm.lemon.module.modules.gui.Panic;
 import me.pm.lemon.module.modules.movement.Blink;
 import me.pm.lemon.module.modules.player.RecordingMode;
-import me.pm.lemon.module.modules.render.Zoom;
 import me.pm.lemon.utils.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -40,7 +39,7 @@ public class Main implements ModInitializer {
 
     public static class ClientScreens {
 //        public static ClickGuiScreen clickGuiScreen;
-        public static BindClickGuiScreen bindClickGuiScreen;
+        public static BindCommandScreen bindClickGuiScreen;
         public static HUDManager hudManager;
         public static ClickGuiScreen testScreen;
     }
@@ -83,7 +82,7 @@ public class Main implements ModInitializer {
 //        ClientScreens.clickGuiScreen = new ClickGuiScreen();
 //        ClientScreens.clickGuiScreen.initWindows();
 
-        ClientScreens.bindClickGuiScreen = new BindClickGuiScreen();
+        ClientScreens.bindClickGuiScreen = new BindCommandScreen();
 
         if(FileHelper.first_run) {
 //            ClientScreens.clickGuiScreen.resetGui();
