@@ -19,7 +19,7 @@ public class UpdateChecker {
                 HttpsURLConnection connection = (HttpsURLConnection) new URL("https://raw.githubusercontent.com/Li4M4tt8IL/PMHack_Info/master/info.json").openConnection();
                 connection.connect();
                 version = jsonParser.parse(new InputStreamReader(connection.getInputStream())).getAsJsonObject();
-                String curVersion = version.getAsJsonObject("versions").get("1.16.5").getAsString();
+                String curVersion = version.getAsJsonObject("versions").get("1.16.5-lemon").getAsString();
                 String clientVersion = Main.ClientInfo.clientVersion;
                 if(clientVersion.equals(curVersion)) {
                     version = null;

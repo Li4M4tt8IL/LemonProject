@@ -31,11 +31,13 @@ import java.util.Objects;
 public class Main implements ModInitializer {
     public static class ClientInfo {
         public static String clientName = "Lemon";
-        public static String clientVersion = "1.0.0";
+        public static String clientVersion = "1.0.2";
         public static String clientCreators = "ThatsNotLiam1337";
         public static String minecraftVersion = MinecraftClient.getInstance().getGame().getVersion().getName();
         public static List<String> clientAuth = Lists.newArrayList();
     }
+
+    public static boolean loggedIn = false;
 
     public static class ClientScreens {
 //        public static ClickGuiScreen clickGuiScreen;

@@ -9,17 +9,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class AutoUpdate {
-    private String url = "https://github.com/Li4M4tt8IL/PMHack_Info/blob/master/pmmod-1.16.2+.jar?raw=true";
+    private String url = "https://github.com/Li4M4tt8IL/PMHack_Info/blob/master/project-lemon-1.16.2+.jar?raw=true";
     public int downloadProgress = 0;
 
     private File getFile() {
-        Path path = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "mods/pmmod-1.16.2+.jar");
+        Path path = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "mods/project-lemon-1.16.2+.jar");
         return path.toFile();
     }
 
     public void newDownload() {
         try {
-            URL url = new URL("https://github.com/Li4M4tt8IL/PMHack_Info/blob/master/pmmod-1.16.2+.jar?raw=true");
+            URL url = new URL("https://github.com/Li4M4tt8IL/PMHack_Info/blob/master/project-lemon-1.16.2+.jar?raw=true");
             HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
             long completeFileSize = httpConnection.getContentLength();
 

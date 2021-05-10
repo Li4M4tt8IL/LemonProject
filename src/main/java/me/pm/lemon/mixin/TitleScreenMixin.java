@@ -1,6 +1,8 @@
 package me.pm.lemon.mixin;
 
+import me.pm.lemon.Main;
 import me.pm.lemon.gui.autoUpdate.AutoUpdateScreen;
+import me.pm.lemon.gui.loginPage.LoginScreen;
 import me.pm.lemon.utils.UpdateChecker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -28,13 +30,16 @@ public abstract class TitleScreenMixin extends Screen {
 
     @Inject(at = @At("HEAD"), method = "init()V")
     private void init(CallbackInfo info) throws IOException {
-//        if(!UpdateChecker.isUpToDate()) {
-//            MinecraftClient.getInstance().openScreen(new AutoUpdateScreen(Text.of("update.auto")));
-//        }
+        if(!UpdateChecker.isUpToDate()) {
+            MinecraftClient.getInstance().openScreen(new AutoUpdateScreen(Text.of("update.auto")));
+        }
 
 //        TitleScreenEvent event = new TitleScreenEvent();
 //        event.call();
 
 //        if(event.isCancelled()) info.cancel();
+        if(!Main.loggedIn) {
+            MinecraftClient.getInstance().openScreen(new LoginScreen());
+        }
     }
 }

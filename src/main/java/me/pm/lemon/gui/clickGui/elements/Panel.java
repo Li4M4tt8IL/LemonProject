@@ -49,7 +49,7 @@ public class Panel {
         this.moduleWindowList = new ArrayList<>();
 
         int xPlus = x+28;
-        int yPlus = y+100;
+        int yPlus = y+80;
         this.moduleWindowList.add(new ModuleWindow(Category.MOVEMENT, xPlus, yPlus, this));
         yPlus += 16;
         this.moduleWindowList.add(new ModuleWindow(Category.EXPLOITS, xPlus, yPlus,this));
@@ -95,7 +95,7 @@ public class Panel {
             logoText.y = (y+70)/2;
 
             int xPlus = x+28;
-            int yPlus = y+100;
+            int yPlus = y+80;
             for(ModuleWindow mw : moduleWindowList) {
                 mw.x = xPlus;
 

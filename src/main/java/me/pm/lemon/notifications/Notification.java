@@ -23,7 +23,11 @@ public class Notification {
         this.message = message;
 
         fadedIn = 200 * length;
-        fadeOut = fadedIn + (MinecraftClient.getInstance().textRenderer.getWidth(message) * 20) * length;
+        fadeOut = fadedIn +
+                MinecraftClient.getInstance().textRenderer.getWidth(message) < MinecraftClient.getInstance().textRenderer.getWidth(title) ?
+                (MinecraftClient.getInstance().textRenderer.getWidth(title) * 20) :
+                (MinecraftClient.getInstance().textRenderer.getWidth(message) * 20)
+                        * length;
         end = fadeOut + fadedIn;
     }
 

@@ -47,7 +47,7 @@ public class Panel {
         this.bindCommandWindowList = new ArrayList<>();
 
         int xPlus = x+28;
-        int yPlus = y+100;
+        int yPlus = y+80;
         this.bindCommandWindowList.add(new BindCommandWindow("Commands", xPlus, yPlus, this));
         Identifier TEXTURE = new Identifier(Main.MOD_ID, "icon.png");
         this.logoIcon = new LogoIcon(this, x+5, y+5, 256, 256, TEXTURE);
@@ -71,7 +71,7 @@ public class Panel {
             logoIcon.y = y*4;
 
             int xPlus = x+28;
-            int yPlus = y+100;
+            int yPlus = y+80;
             for(BindCommandWindow mw : bindCommandWindowList) {
                 mw.x = xPlus;
 

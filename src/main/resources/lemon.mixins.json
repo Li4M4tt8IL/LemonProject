@@ -1,0 +1,38 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.pm.lemon.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "LivingEntityMixin",
+    "ClientConnectionMixin",
+    "KeyboardMixin",
+    "HUDMixin",
+    "BlockAccessor",
+    "EntityRenderMixin",
+    "WorldRendererMixin",
+    "GameRendererMixin",
+    "ClientPlayerEntityMixin",
+    "MinecraftClientMixin",
+    "ScreenMixin",
+    "BlockMixin",
+    "AbstractBlockMixin",
+    "BlockModelRendererMixin",
+    "PacketInflaterMixin",
+    "IMinecraftClient",
+    "KeyBindingAccessor",
+    "ClientPlayerInteractionManagerMixin",
+    "PlayerEntityMixin",
+    "RenderLivingMixin",
+    "PlayerEntityRendererMixin",
+    "ChatScreenMixin",
+    "TitleScreenMixin",
+    "MouseMixin",
+    "CameraMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
