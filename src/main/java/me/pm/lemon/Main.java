@@ -31,10 +31,11 @@ import java.util.Objects;
 public class Main implements ModInitializer {
     public static class ClientInfo {
         public static String clientName = "Lemon";
-        public static String clientVersion = "1.0.2";
-        public static String clientCreators = "ThatsNotLiam1337";
+        public static String clientVersion = "1.2.0";
+        public static String clientCreators = "f9486cc8-6743-4140-9145-4307e86de58a";
         public static String minecraftVersion = MinecraftClient.getInstance().getGame().getVersion().getName();
         public static List<String> clientAuth = Lists.newArrayList();
+        public static List<String> wingsUUID = Lists.newArrayList();
     }
 
     public static boolean loggedIn = false;
@@ -54,9 +55,9 @@ public class Main implements ModInitializer {
     public static final String MOD_ID = "lemon";
 
     public static boolean isPanic = false;
-    public static boolean testMode = false;
+    public static boolean legitMode = false;
     public static boolean isReloading = false;
-    public static boolean debugMode = true;
+    public static boolean debugMode = false;
 
     public static ModuleManager moduleManager;
     public static CommandManager commandManager;
@@ -64,6 +65,10 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ClientInfo.wingsUUID.add(ClientInfo.clientCreators);
+        ClientInfo.wingsUUID.add("04731cb9-5c8a-4e40-a827-8efca7634129");
+        ClientInfo.wingsUUID.add("de987d75-b315-4920-ab93-ca148b19115d");
+
         ClientKeys.zoomKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("Zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "Misc"));
         ClientKeys.freelookKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("Free Look", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "Misc"));
         FileHelper.init();
@@ -75,12 +80,13 @@ public class Main implements ModInitializer {
         moduleManager.init();
         Module.fileManager = new FileManager();
 
-        UpdateChecker.checkOwner();
+//        UpdateChecker.checkOwner();
 
         commandManager = new CommandManager();
         Module.friendManager = new FriendManager();
 
         FileManager.readModules();
+        FileManager.setLegit();
 //        ClientScreens.clickGuiScreen = new ClickGuiScreen();
 //        ClientScreens.clickGuiScreen.initWindows();
 
@@ -127,6 +133,7 @@ public class Main implements ModInitializer {
         FileManager.updateBindCommands();
 //        FileManager.saveAlts();
         FileManager.saveModules();
+        FileManager.saveAlts();
 //        FileManager.saveClickGui();
 //        ApiManager.getInstance().deletePlayerUUID(ApiManager.getInstance().uuid);
     }

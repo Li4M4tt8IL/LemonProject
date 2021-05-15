@@ -4,6 +4,7 @@ import me.pm.lemon.utils.generalUtils.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.server.MinecraftServer;
 
 import java.awt.*;
 
@@ -17,17 +18,19 @@ public class Notification {
     private long fadeOut;
     private long end;
 
+    private MinecraftClient mc = MinecraftClient.getInstance();
+
     public Notification(NotificationType type, String title, String message, int length) {
         this.type = type;
         this.title = title;
         this.message = message;
 
         fadedIn = 200 * length;
-        fadeOut = fadedIn +
-                MinecraftClient.getInstance().textRenderer.getWidth(message) < MinecraftClient.getInstance().textRenderer.getWidth(title) ?
-                (MinecraftClient.getInstance().textRenderer.getWidth(title) * 20) :
-                (MinecraftClient.getInstance().textRenderer.getWidth(message) * 20)
-                        * length;
+        if(mc.textRenderer.getWidth(title) > mc.textRenderer.getWidth(message)) {
+            fadeOut = fadedIn + (mc.textRenderer.getWidth(title) * 20) * length;
+        } else {
+            fadeOut = fadedIn + (mc.textRenderer.getWidth(message) * 20) * length;
+        }
         end = fadeOut + fadedIn;
     }
 
@@ -42,7 +45,12 @@ public class Notification {
     public void render() {
         TextRenderer fontRenderer = MinecraftClient.getInstance().textRenderer;
         double offset = 0;
-        int width = 20+ fontRenderer.getWidth(message);
+        int width;
+        if(mc.textRenderer.getWidth(title) > mc.textRenderer.getWidth(message)) {
+            width = 20+ fontRenderer.getWidth(title);
+        } else {
+            width = 20+ fontRenderer.getWidth(message);
+        }
         int height = 30;
         long time = getTime();
 

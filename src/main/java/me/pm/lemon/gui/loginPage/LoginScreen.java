@@ -1,6 +1,8 @@
 package me.pm.lemon.gui.loginPage;
 
 import me.pm.lemon.Main;
+import me.pm.lemon.utils.FileManager;
+import me.pm.lemon.utils.LoginUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -41,19 +43,30 @@ public class LoginScreen extends Screen {
                 successVisible = false;
                 return;
             }
-            System.out.println(email.getText() + ":" + password.getText());
-            if(email.getText().equals("admin@lemon.com") && password.getText().equals("LemonClient")) {
+            /* Admin Login */
+            if(LoginUtils.login(email.getText(), password.getText())) {
                 errorVisible = false;
                 successVisible = true;
-                Main.loggedIn = true;
             }
+            /* TODO: Server connect */
+
             email.setText("");
             password.setText("");
             errorVisible = false;
         }));
         successButton = new ButtonWidget(width / 2-255 / 2, height / 2 + 80, 255, 20, Text.of("Proceed."), button -> {
-            mc.openScreen(null);
+            if(button.visible) {
+                mc.openScreen(null);
+            }
         });
+        if(FileManager.getLogin() != null) {
+            String username = FileManager.getLogin().split(":")[0];
+            String passwd = FileManager.getLogin().split(":")[1];
+            email.setText(username);
+            password.setText(passwd);
+            loginButton.onPress();
+            successButton.onPress();
+        }
     }
 
     @Override

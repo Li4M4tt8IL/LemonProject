@@ -45,7 +45,8 @@ public class Hud extends Module {
                 new SettingToggle("Keystrokes", true),
                 new SettingToggle("Inventory", true),
                 new SettingToggle("Module Notifications", false),
-                new SettingToggle("Other Notifications", true));
+                new SettingToggle("Other Notifications", true),
+                new SettingToggle("Perspective MSG", false));
     }
 
     @EventTarget

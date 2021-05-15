@@ -1,5 +1,6 @@
 package me.pm.lemon.mixin;
 
+import me.pm.lemon.cosmetics.features.WingFeatureRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -20,7 +21,7 @@ public abstract class PlayerEntityRendererMixin  extends LivingEntityRenderer<Ab
     @Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/client/render/entity/EntityRenderDispatcher;Z)V")
     private void addFeatures(EntityRenderDispatcher dispatcher, boolean bl, CallbackInfo ci) {
 //        this.addFeature(new HatFeatureRenderer(this));
-//        this.addFeature(new WingFeatureRenderer(this));
+        this.addFeature(new WingFeatureRenderer(this));
 //        this.addFeature(new CapeFeatureRenderer(this));
     }
 }

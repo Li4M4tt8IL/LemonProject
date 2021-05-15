@@ -26,7 +26,37 @@ public class RenderUtils {
         gl11Cleanup();
     }
 
+    public static void drawBorderedRect(double x, double y, double x2, double y2, float l1, int col1, int col2) {
+        drawRect((float)x, (float)y, (float)x2, (float)y2, col2);
 
+        float f = (float)(col1 >> 24 & 0xFF) / 255F;
+        float f1 = (float)(col1 >> 16 & 0xFF) / 255F;
+        float f2 = (float)(col1 >> 8 & 0xFF) / 255F;
+        float f3 = (float)(col1 & 0xFF) / 255F;
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+
+        GL11.glColor4f(f1, f2, f3, f);
+        GL11.glLineWidth(l1);
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x, y2);
+        GL11.glVertex2d(x2, y2);
+        GL11.glVertex2d(x2, y);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x2, y);
+        GL11.glVertex2d(x, y2);
+        GL11.glVertex2d(x2, y2);
+        GL11.glEnd();
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glPopMatrix();
+    }
 
     public static void drawFilledBox(BlockPos blockPos, float r, float g, float b, float a) {
         drawFilledBox(new Box(blockPos), r, g, b, a);

@@ -10,26 +10,128 @@ import me.pm.lemon.bindcommand.BindCommandManager;
 import me.pm.lemon.command.Command;
 import me.pm.lemon.friends.Friend;
 import me.pm.lemon.friends.FriendManager;
+import me.pm.lemon.gui.alts.Alt;
+import me.pm.lemon.gui.alts.AltManager;
 import me.pm.lemon.gui.clickGui.settings.Setting;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.ModuleManager;
+import org.apache.commons.codec.binary.Base64;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESedeKeySpec;
 import java.io.*;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.KeySpec;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class FileManager {
-    public FileManager()
-    {
+    public FileManager() {
         loadFriends();
         loadBindCommands();
 //        loadAlts();
+
+        try {
+            myEncryptionKey = "ThisIsSpartaThisIsSparta";
+            myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
+            arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
+            ks = new DESedeKeySpec(arrayBytes);
+            skf = SecretKeyFactory.getInstance(myEncryptionScheme);
+            cipher = Cipher.getInstance(myEncryptionScheme);
+            key = skf.generateSecret(ks);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static final String UNICODE_FORMAT = "UTF8";
+    public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
+    private KeySpec ks;
+    private SecretKeyFactory skf;
+    private static Cipher cipher;
+    byte[] arrayBytes;
+    private String myEncryptionKey;
+    private String myEncryptionScheme;
+    static SecretKey key;
+
+    public static String encrypt(String unencryptedString) {
+        String encryptedString = null;
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] plainText = unencryptedString.getBytes(UNICODE_FORMAT);
+            byte[] encryptedText = cipher.doFinal(plainText);
+            encryptedString = new String(Base64.encodeBase64(encryptedText));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return encryptedString;
+    }
+
+
+    public static String decrypt(String encryptedString) {
+        String decryptedText=null;
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] encryptedText = Base64.decodeBase64(encryptedString);
+            byte[] plainText = cipher.doFinal(encryptedText);
+            decryptedText= new String(plainText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return decryptedText;
+    }
+
+    public static void saveAlts() {
+        FileHelper.createEmptyFile("alts.txt");
+        for(Alt alt : AltManager.getRegistry()) {
+            FileHelper.appendFile(encrypt(alt.getMask()) + ":" + encrypt(alt.getUsername()) + ":"+encrypt(alt.getPassword()), "alts.txt");
+        }
+    }
+
+    public static void loadAlts() {
+        if(FileHelper.fileExists("alts.txt")) {
+            List<String> lines = FileHelper.readFileLines("alts.txt");
+            for(String string : lines) {
+                String mask = string.split(":")[0];
+                String username = string.split(":")[1];
+                String password = string.split(":")[2];
+                AltManager.getRegistry().add(new Alt(decrypt(mask), decrypt(username), decrypt(password)));
+            }
+        }
+    }
+
+    public static void saveLogin(String s1, String s2)  {
+        FileHelper.createEmptyFile("account.txt");
+        FileHelper.appendFile(s1 + ":"+encrypt(s2), "account.txt");
+    }
+
+    public static String getLogin() {
+        if(FileHelper.fileExists("account.txt")) {
+            List<String> lines = FileHelper.readFileLines("account.txt");
+            String username = lines.get(0).split(":")[0];
+            String passwd = lines.get(0).split(":")[1];
+            return username+":"+decrypt(passwd);
+        } else {
+            return null;
+        }
+    }
+
+    public static void setLegit() {
+        if(FileHelper.fileExists("empty.txt")) {
+            List<String> lines = FileHelper.readFileLines("account.txt");
+            String legit = lines.get(0);
+            if(legit.equals("true")) {
+                Main.legitMode = true;
+            }
+        }
     }
 
     public static void saveModules() {
-        System.out.println("PMTEST!@#");
         FileHelper.createEmptyFile("modules.json");
         JsonObject jo = new JsonObject();
 

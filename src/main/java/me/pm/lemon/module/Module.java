@@ -1,5 +1,7 @@
 package me.pm.lemon.module;
 
+import com.google.common.collect.Lists;
+import me.pm.lemon.Main;
 import me.pm.lemon.event.EventManager;
 import me.pm.lemon.friends.FriendManager;
 import me.pm.lemon.gui.clickGui.settings.Setting;
@@ -154,7 +156,19 @@ public class Module {
     }
 
     public static List<Module> getModulesInCat(Category cat) {
-        return ModuleManager.modules.stream().filter(m -> m.getCategory().equals(cat)).collect(Collectors.toList());
+        List<Module> list = Lists.newArrayList();
+        for(Module mod : ModuleManager.getModules()) {
+            if(mod.category.equals(cat)) {
+                if(Main.legitMode) {
+                    if(ModuleManager.legitModules.contains(mod)) {
+                        list.add(mod);
+                    }
+                } else {
+                    list.add(mod);
+                }
+            }
+        }
+        return list;
     }
 
     public List<me.pm.lemon.gui.clickGui.settings.Setting> getSettings() {

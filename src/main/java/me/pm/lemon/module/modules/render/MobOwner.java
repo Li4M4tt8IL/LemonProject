@@ -27,9 +27,7 @@ public class MobOwner extends Module {
 
     private final Map<String, String> cachedUUIDs = new HashMap<>();
 
-    public String getNameFromUUID(String uuid)
-    {
-
+    public String getNameFromUUID(String uuid) {
         uuid = uuid.replace("-", "");
         for (Map.Entry<String, String> entries : cachedUUIDs.entrySet()) {
             if (entries.getKey().equalsIgnoreCase(uuid)) {

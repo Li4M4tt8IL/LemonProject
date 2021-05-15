@@ -24,7 +24,7 @@ public class ModuleList extends ModuleDraggable {
     public int getWidth() {
         List<String> moduleList = new ArrayList<>();
         String name;
-        for (Module mod : ModuleManager.modules) {
+        for (Module mod : ModuleManager.getModules()) {
             if (mod.isToggled() && !mod.isCategory(Category.GUI)) {
                 name = mod.getDisplayName();
                 if (name == null) {
@@ -46,7 +46,7 @@ public class ModuleList extends ModuleDraggable {
         int yCount = 2;
         List<String> moduleList = new ArrayList<>();
         String name;
-        for (Module mod : ModuleManager.modules) {
+        for (Module mod : ModuleManager.getModules()) {
             if (mod.isToggled() && !mod.isCategory(Category.GUI)) {
                 name = mod.getDisplayName();
                 if (name == null) {
@@ -68,7 +68,7 @@ public class ModuleList extends ModuleDraggable {
                 MatrixStack matrixStack = new MatrixStack();
                 List<String> moduleList = new ArrayList<>();
                 String name;
-                for (Module mod : ModuleManager.modules) {
+                for (Module mod : ModuleManager.getModules()) {
                     if (mod.isToggled() && !mod.isCategory(Category.GUI)) {
                         name = mod.getDisplayName();
                         if (name == null) {

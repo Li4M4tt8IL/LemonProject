@@ -9,6 +9,7 @@ import me.pm.lemon.module.Module;
 import me.pm.lemon.module.modules.gui.ClickGui;
 import me.pm.lemon.utils.generalUtils.LemonColors;
 import me.pm.lemon.utils.generalUtils.RenderUtils;
+import me.pm.lemon.utils.generalUtils.Util;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.BufferBuilder;
@@ -99,7 +100,7 @@ public class ModuleWindow {
                 if(cat == Category.HELP) {
                     ArrayList<String> list = Lists.newArrayList();
                     if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
-                        list.add("Author: " + Main.ClientInfo.clientCreators);
+                        list.add("Author: " + Util.getNameFromUUID(Main.ClientInfo.clientCreators));
                         list.add("To toggle a module you have to click it with 'LMB'.");
                         list.add("To bind a module you have to click it with your scroll wheel.");
                         list.add("To open a module's settings you have to click it with 'RMB'");
@@ -115,7 +116,7 @@ public class ModuleWindow {
                         list.add("");
                         list.add("Możesz zmienić język moda wchodząc w ClickGUI>Settings");
                     } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
-                        list.add("Autor: " + Main.ClientInfo.clientCreators);
+                        list.add("Autor: " + Util.getNameFromUUID(Main.ClientInfo.clientCreators));
                         list.add("Aby włączyć moduł musisz klinąć na niego lewym");
                         list.add("przyciskiem myszy. (LPM)");
                         list.add("Aby zbindować moduł należy kliknąć na niego scrollem.");
@@ -142,6 +143,9 @@ public class ModuleWindow {
                     }
 
                     return;
+                }
+                if(moduleList.isEmpty()) {
+                    mc.textRenderer.draw(matrixStack, "No modules here lol.", parent.x+(parent.width/3), parent.y+59, -1);
                 }
 
                 if(!moduleList.isEmpty() && moduleList != null) {

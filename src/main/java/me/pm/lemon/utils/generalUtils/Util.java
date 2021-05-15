@@ -1,5 +1,6 @@
 package me.pm.lemon.utils.generalUtils;
 
+import com.google.gson.JsonParser;
 import me.pm.lemon.gui.clickGui.settings.SettingRotate;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.modules.combat.CrystalAura;
@@ -27,10 +28,15 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.explosion.Explosion;
+import org.apache.commons.io.IOUtils;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Util {
     public static final List<Block> NONSOLID_BLOCKS = Arrays.asList(
@@ -76,6 +82,25 @@ public class Util {
             mc.player.yaw = rotations[0];
             mc.player.pitch = rotations[1];// 14
         }
+    }
+
+    public static String getNameFromUUID(String uuid) {
+        uuid = uuid.replace("-", "");
+        final String url = "https://api.mojang.com/user/profiles/" + uuid + "/names";
+        System.out.println("Querying " + url + " for owner ID");
+        try {
+            final String nameJson = IOUtils.toString(new URL(url), StandardCharsets.UTF_8);
+            if (nameJson != null && nameJson.length() > 0)
+            {
+                JsonParser parser = new JsonParser();
+                String name = parser.parse(nameJson).getAsJsonArray().get(parser.parse(nameJson).getAsJsonArray().size() - 1)
+                        .getAsJsonObject().get("name").toString();
+                return name;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static float[] getRotationsNeeded(Entity entity) {

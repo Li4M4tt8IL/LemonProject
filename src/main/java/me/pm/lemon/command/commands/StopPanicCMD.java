@@ -3,6 +3,7 @@ package me.pm.lemon.command.commands;
 import me.pm.lemon.Main;
 import me.pm.lemon.command.Command;
 import me.pm.lemon.module.Module;
+import me.pm.lemon.module.modules.gui.ClickGui;
 import me.pm.lemon.module.modules.gui.Panic;
 import me.pm.lemon.utils.LemonLogger;
 
@@ -40,7 +41,11 @@ public class StopPanicCMD extends Command {
             Module.getModule(Panic.class).setToggled(false);
             Main.isPanic = false;
         } else {
-            LemonLogger.infoMessage("LOL","Panic jest juz wylaczony!");
+            if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 0) {
+                LemonLogger.infoMessage("Success!","Panic disabled.");
+            } else if(Module.getModule(ClickGui.class).getSetting(6).asMode().mode == 1) {
+                LemonLogger.infoMessage("Udało się!","Panic wyłączony.");
+            }
         }
     }
 }

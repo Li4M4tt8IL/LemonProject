@@ -47,7 +47,7 @@ public class ApiChangeCMD extends Command {
         if(Main.debugMode) {
             return true;
         } else {
-            return MinecraftClient.getInstance().player.getName().getString().equals(Main.ClientInfo.clientCreators);
+            return MinecraftClient.getInstance().player.getUuidAsString().equals(Main.ClientInfo.clientCreators);
         }
     }
 

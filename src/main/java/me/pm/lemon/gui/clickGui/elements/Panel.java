@@ -3,6 +3,7 @@ package me.pm.lemon.gui.clickGui.elements;
 import me.pm.lemon.Main;
 import me.pm.lemon.gui.clickGui.ClickGuiScreen;
 import me.pm.lemon.module.Category;
+import me.pm.lemon.module.Module;
 import me.pm.lemon.utils.generalUtils.LemonColors;
 import me.pm.lemon.utils.generalUtils.RenderUtils;
 import net.minecraft.client.MinecraftClient;
@@ -78,6 +79,28 @@ public class Panel {
         Identifier TEXTURE = new Identifier(Main.MOD_ID, "icon.png");
         this.logoIcon = new LogoIcon(this, x+5, y+5, 256, 256, TEXTURE);
         this.logoText = new LogoText(this, x+13, y+32);
+    }
+
+    public void resetButtons() {
+        for(ModuleWindow mw : moduleWindowList) {
+            mw.moduleList.clear();
+            int modX = x+70;
+            int modY = y+30;
+            int modWidth = 95;
+            int modHeight = 14;
+            int i = 0;
+
+            for(Module module : Module.getModulesInCat(mw.cat)) {
+                mw.moduleList.add(new ModuleButton(module, modX, modY, modWidth, modHeight, mw));
+                modX += modWidth+16;
+                i++;
+                if(i >=3) {
+                    modX = x+70;
+                    modY += modHeight+3;
+                    i = 0;
+                }
+            }
+        }
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY) {

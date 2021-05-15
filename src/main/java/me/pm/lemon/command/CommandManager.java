@@ -15,7 +15,7 @@ public class CommandManager {
         commands = new ArrayList<>();
         registerCommand(new HelpCMD());
         registerCommand(new StopPanicCMD());
-        registerCommand(new TestModeCMD());
+        registerCommand(new LegitModeCMD());
         registerCommand(new XrayCMD());
         registerCommand(new BindCommandCMD());
         registerCommand(new PrefixCMD());

@@ -1,6 +1,7 @@
 package me.pm.lemon.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Session;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -22,4 +23,9 @@ public interface IMinecraftClient {
         throw new UnsupportedOperationException("Untransformed mixin!");
     }
 
+    @Accessor("session")
+    public Session getSession();
+
+    @Accessor("session")
+    public void setSession(Session session);
 }

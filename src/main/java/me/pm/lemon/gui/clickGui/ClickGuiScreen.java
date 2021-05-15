@@ -12,7 +12,7 @@ public class ClickGuiScreen extends Screen {
         this.panel = new Panel(this,5, 5, 400, 260);
     }
 
-    private Panel panel;
+    public Panel panel;
 
     public int mouseX;
     public int mouseY;

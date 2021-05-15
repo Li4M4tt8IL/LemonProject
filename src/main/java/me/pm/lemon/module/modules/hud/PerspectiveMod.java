@@ -66,7 +66,7 @@ public class PerspectiveMod extends ModuleDraggable {
     @Override
     public void render(ScreenPosition pos) {
         MatrixStack matrixStack = new MatrixStack();
-        if(getModule(Hud.class).isToggled() && getModule(Hud.class).getSetting(4).asToggle().state) {
+        if(getModule(Hud.class).isToggled() && getModule(Hud.class).getSetting(10).asToggle().state) {
             if(perspectiveEnabled) {
                 mc.textRenderer.drawWithShadow(matrixStack, "[Perspective Toggled]", pos.getAbsoluteX(), pos.getAbsoluteY(), ColorUtils.textColor());
             }
@@ -76,7 +76,7 @@ public class PerspectiveMod extends ModuleDraggable {
     @Override
     public void renderDummy(ScreenPosition pos) {
         MatrixStack matrixStack = new MatrixStack();
-        if(getModule(Hud.class).isToggled() && getModule(Hud.class).getSetting(4).asToggle().state) {
+        if(getModule(Hud.class).isToggled() && getModule(Hud.class).getSetting(10).asToggle().state) {
             mc.textRenderer.drawWithShadow(matrixStack, "[Perspective Toggled]", pos.getAbsoluteX(), pos.getAbsoluteY(), ColorUtils.textColor());
         }
     }
