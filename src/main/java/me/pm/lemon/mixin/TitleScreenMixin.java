@@ -25,7 +25,7 @@ public abstract class TitleScreenMixin extends Screen {
 
     @Inject(at=@At("RETURN"), method = "initWidgetsNormal")
     private void addCustomButton(int y, int spacingY, CallbackInfo ci) {
-        this.addButton(new ButtonWidget(this.width / 2 - 100 + 205, y, textRenderer.getWidth("Alt Manager") + 5, 20, Text.of("Alt Manager"), (buttonWidget) -> {
+        this.addButton(new ButtonWidget(this.width / 2 - 100 + 205, y, textRenderer.getWidth("Alt Manager") + 10, 20, Text.of("Alt Manager"), (buttonWidget) -> {
             this.client.openScreen(new GuiAltManager(this));
         }));
     }
