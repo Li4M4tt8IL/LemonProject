@@ -97,9 +97,9 @@ public class FileManager {
         if(FileHelper.fileExists("alts.txt")) {
             List<String> lines = FileHelper.readFileLines("alts.txt");
             for(String string : lines) {
-                String mask = string.split(":")[0];
-                String username = string.split(":")[1];
-                String password = string.split(":")[2];
+                String mask = string.split(":")[1];
+                String username = string.split(":")[2];
+                String password = string.split(":")[0];
                 AltManager.getRegistry().add(new Alt(decrypt(mask), decrypt(username), decrypt(password)));
             }
         }
