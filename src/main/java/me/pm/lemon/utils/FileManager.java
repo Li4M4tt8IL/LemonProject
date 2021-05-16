@@ -123,7 +123,7 @@ public class FileManager {
 
     public static void setLegit() {
         if(FileHelper.fileExists("empty.txt")) {
-            List<String> lines = FileHelper.readFileLines("account.txt");
+            List<String> lines = FileHelper.readFileLines("empty.txt");
             String legit = lines.get(0);
             if(legit.equals("true")) {
                 Main.legitMode = true;
