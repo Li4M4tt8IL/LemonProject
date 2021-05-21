@@ -41,7 +41,7 @@ public class ApiV2 {
 
     public void updatePlayer(String name, boolean online) {
         try {
-            String query = String.format("?name=%s&online=%s", name, online);
+            String query = String.format("?name=%s&online=%s", name.replaceAll("-", ""), online);
             URL url = new URL(this.url+query);
             given()
                     .header("Content-Type", "application/json")
@@ -87,7 +87,7 @@ public class ApiV2 {
 
     public void updatePlayer(String name, boolean online, String hat, String wings) {
         try {
-            String query = String.format("?name=%s&online=%s&hat=%s&wings=%s", name, online, hat, wings);
+            String query = String.format("?name=%s&online=%s&hat=%s&wings=%s", name.replaceAll("-", ""), online, hat, wings);
             URL url = new URL(this.url+query);
             given()
                     .header("Content-Type", "application/json")
@@ -117,7 +117,7 @@ public class ApiV2 {
 
     public void updatePlayer(String query) {
         try {
-            URL url = new URL(this.url+query);
+            URL url = new URL(this.url+query.replaceAll("-", ""));
             given()
                     .header("Content-Type", "application/json")
                     .contentType(ContentType.JSON).accept(ContentType.JSON)
@@ -140,7 +140,7 @@ public class ApiV2 {
                 String hat = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(hat.equalsIgnoreCase("tophat")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -167,7 +167,7 @@ public class ApiV2 {
                 String hat = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(hat.equalsIgnoreCase("xmas")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -194,7 +194,7 @@ public class ApiV2 {
                 String hat = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(hat.equalsIgnoreCase("ears-light")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -221,7 +221,7 @@ public class ApiV2 {
                 String hat = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(hat.equalsIgnoreCase("ears-dark")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -248,7 +248,7 @@ public class ApiV2 {
                 String wings = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(wings.equalsIgnoreCase("demon")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -275,7 +275,7 @@ public class ApiV2 {
                 String wings = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(wings.equalsIgnoreCase("dragon")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -302,7 +302,7 @@ public class ApiV2 {
                 String wings = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(wings.equalsIgnoreCase("angel")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -329,7 +329,7 @@ public class ApiV2 {
                 String hat = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(hat.equalsIgnoreCase("fox-orange")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
@@ -356,7 +356,7 @@ public class ApiV2 {
                 String hat = string.split(":")[1];
                 String name = string.split(":")[0];
                 if(hat.equalsIgnoreCase("fox-white")) {
-                    newList.add(name);
+                    newList.add(name.replaceAll("-", ""));
                 }
             }
             return newList;
