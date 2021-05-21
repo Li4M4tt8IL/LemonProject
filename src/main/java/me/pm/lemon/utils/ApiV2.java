@@ -48,7 +48,7 @@ public class ApiV2 {
                     .contentType(ContentType.JSON).accept(ContentType.JSON)
                     .when()
                     .post(url).then().statusCode(200);
-            this.name = name;
+            this.name = name.replaceAll("-", "");
         } catch (Exception e) {
             return;
         }
@@ -63,7 +63,7 @@ public class ApiV2 {
                     .contentType(ContentType.JSON).accept(ContentType.JSON)
                     .when()
                     .post(url).then().statusCode(200);
-            this.name = name;
+            this.name = getUuid(name);
         } catch (Exception e) {
             return;
         }
@@ -78,7 +78,7 @@ public class ApiV2 {
                     .contentType(ContentType.JSON).accept(ContentType.JSON)
                     .when()
                     .post(url).then().statusCode(200);
-            this.name = name;
+            this.name = getUuid(name);
         } catch (Exception e) {
             return;
         }
@@ -94,7 +94,7 @@ public class ApiV2 {
                     .contentType(ContentType.JSON).accept(ContentType.JSON)
                     .when()
                     .post(url).then().statusCode(200);
-            this.name = name;
+            this.name = name.replaceAll("-", "");
         } catch (Exception e) {
             return;
         }
