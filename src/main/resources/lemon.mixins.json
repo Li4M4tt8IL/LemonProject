@@ -30,7 +30,8 @@
     "ChatScreenMixin",
     "TitleScreenMixin",
     "MouseMixin",
-    "CameraMixin"
+    "CameraMixin",
+    "IFramebuffer"
   ],
   "injectors": {
     "defaultRequire": 1

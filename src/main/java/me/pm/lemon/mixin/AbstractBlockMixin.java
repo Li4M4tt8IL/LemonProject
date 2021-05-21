@@ -4,6 +4,7 @@ import me.pm.lemon.module.Module;
 import me.pm.lemon.module.modules.world.Xray;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,5 +20,6 @@ public class AbstractBlockMixin {
         if (Module.getModule(Xray.class).isToggled()) {
             callbackInfoReturnable.setReturnValue(1.0F);
         }
+
     }
 }

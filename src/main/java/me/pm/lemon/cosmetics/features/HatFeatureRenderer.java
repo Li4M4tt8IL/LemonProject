@@ -1,6 +1,11 @@
 package me.pm.lemon.cosmetics.features;
 
+import me.pm.lemon.Main;
 import me.pm.lemon.cosmetics.models.base.HatModelBase;
+import me.pm.lemon.cosmetics.models.hats.CatEarModel;
+import me.pm.lemon.cosmetics.models.hats.ChristmasHatModel;
+import me.pm.lemon.cosmetics.models.hats.FoxEarModel;
+import me.pm.lemon.cosmetics.models.hats.TopHatModel;
 import me.pm.lemon.utils.LemonLogger;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -25,21 +30,21 @@ public class HatFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEnti
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity entity,float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         try {
-//            if(Main.getTopHats().contains(entity.getName().getString())) {
-//                hatModel = new TopHatModel(1F, playerModel);
-//            } else if(Main.getDarkEars().contains(entity.getName().getString())) {
-//                hatModel = new CatEarModel(1F, playerModel, "dark");
-//            } else if(Main.getLightEars().contains(entity.getName().getString())) {
-//                hatModel = new CatEarModel(1F, playerModel, "light");
-//            } else if(Main.getChristmasHats().contains(entity.getName().getString())) {
-//                hatModel = new ChristmasHatModel(1F, playerModel);
-//            } else if(Main.getOrangeFoxEars().contains(entity.getName().getString())) {
-//                hatModel = new FoxEarModel(1F, playerModel, "orange");
-//            } else if(Main.getWhiteFoxEars().contains(entity.getName().getString())) {
-//                hatModel = new FoxEarModel(1F, playerModel, "white");
-//            } else {
-//                hatModel = null;
-//            }
+            if(Main.getTopHats().contains(entity.getUuidAsString())) {
+                hatModel = new TopHatModel(1F, playerModel);
+            } else if(Main.getDarkEars().contains(entity.getUuidAsString())) {
+                hatModel = new CatEarModel(1F, playerModel, "dark");
+            } else if(Main.getLightEars().contains(entity.getUuidAsString())) {
+                hatModel = new CatEarModel(1F, playerModel, "light");
+            } else if(Main.getChristmasHats().contains(entity.getUuidAsString())) {
+                hatModel = new ChristmasHatModel(1F, playerModel);
+            } else if(Main.getOrangeFoxEars().contains(entity.getUuidAsString())) {
+                hatModel = new FoxEarModel(1F, playerModel, "orange");
+            } else if(Main.getWhiteFoxEars().contains(entity.getUuidAsString())) {
+                hatModel = new FoxEarModel(1F, playerModel, "white");
+            } else {
+                hatModel = null;
+            }
 
             if(hatModel == null) return;
             for(int n = 0; n < 2; ++n) {

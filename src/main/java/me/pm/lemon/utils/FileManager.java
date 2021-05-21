@@ -107,7 +107,7 @@ public class FileManager {
 
     public static void saveLogin(String s1, String s2)  {
         FileHelper.createEmptyFile("account.txt");
-        FileHelper.appendFile(s1 + ":"+encrypt(s2), "account.txt");
+        FileHelper.appendFile(encrypt(s1) + ":"+encrypt(s2), "account.txt");
     }
 
     public static String getLogin() {
@@ -115,7 +115,7 @@ public class FileManager {
             List<String> lines = FileHelper.readFileLines("account.txt");
             String username = lines.get(0).split(":")[0];
             String passwd = lines.get(0).split(":")[1];
-            return username+":"+decrypt(passwd);
+            return decrypt(username)+":"+decrypt(passwd);
         } else {
             return null;
         }
@@ -190,28 +190,30 @@ public class FileManager {
             if (mod == null) continue;
 
             if (e.getValue().isJsonObject()) {
-                JsonObject mo = e.getValue().getAsJsonObject();
-                if (mo.has("toggled")) {
-                    mod.toggle();
-                }
+                if(mod != null) {
+                    JsonObject mo = e.getValue().getAsJsonObject();
+                    if (mo.has("toggled")) {
+                        mod.toggle();
+                    }
 
-                if (mo.has("bind") && mo.get("bind").isJsonPrimitive() && mo.get("bind").getAsJsonPrimitive().isNumber()) {
-                    mod.setKeyCode(mo.get("bind").getAsInt());
-                }
+                    if (mo.has("bind") && mo.get("bind").isJsonPrimitive() && mo.get("bind").getAsJsonPrimitive().isNumber()) {
+                        mod.setKeyCode(mo.get("bind").getAsInt());
+                    }
 
-                if (mo.has("settings") && mo.get("settings").isJsonObject()) {
-                    for (Map.Entry<String, JsonElement> se : mo.get("settings").getAsJsonObject().entrySet()) {
-                        // Map to keep track if there are multiple settings with the same name
-                        HashMap<String, Integer> sNames = new HashMap<>();
+                    if (mo.has("settings") && mo.get("settings").isJsonObject()) {
+                        for (Map.Entry<String, JsonElement> se : mo.get("settings").getAsJsonObject().entrySet()) {
+                            // Map to keep track if there are multiple settings with the same name
+                            HashMap<String, Integer> sNames = new HashMap<>();
 
-                        for (Setting sb : mod.getSettings()) {
-                            String name = sNames.containsKey(sb.getName()) ? sb.getName() + sNames.get(sb.getName()) : sb.getName();
+                            for (Setting sb : mod.getSettings()) {
+                                String name = sNames.containsKey(sb.getName()) ? sb.getName() + sNames.get(sb.getName()) : sb.getName();
 
-                            if (name.equals(se.getKey())) {
-                                sb.readSettings(se.getValue());
-                                break;
-                            } else {
-                                sNames.put(sb.getName(), sNames.containsKey(sb.getName()) ? sNames.get(sb.getName()) + 1 : 1);
+                                if (name.equals(se.getKey())) {
+                                    sb.readSettings(se.getValue());
+                                    break;
+                                } else {
+                                    sNames.put(sb.getName(), sNames.containsKey(sb.getName()) ? sNames.get(sb.getName()) + 1 : 1);
+                                }
                             }
                         }
                     }

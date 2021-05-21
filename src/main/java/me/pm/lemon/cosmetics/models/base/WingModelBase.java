@@ -18,6 +18,6 @@ public class WingModelBase<T extends LivingEntity> extends BipedEntityModel<T> {
     }
 
     public Identifier getTexture() {
-        return new Identifier(Main.MOD_ID, "textures/hat.png");
+        return new Identifier(Main.MOD_ID, "textures/wing.png");
     }
 }

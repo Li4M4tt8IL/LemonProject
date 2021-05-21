@@ -2,6 +2,8 @@ package me.pm.lemon.cosmetics.features;
 
 import me.pm.lemon.Main;
 import me.pm.lemon.cosmetics.models.base.WingModelBase;
+import me.pm.lemon.cosmetics.models.wings.AngelWingsModel;
+import me.pm.lemon.cosmetics.models.wings.DemonWingModel;
 import me.pm.lemon.cosmetics.models.wings.DragonWingsModel;
 import me.pm.lemon.utils.LemonLogger;
 import me.pm.lemon.utils.generalUtils.Util;
@@ -30,21 +32,18 @@ public class WingFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEnt
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         try {
-//            if(Main.getDemonWings().contains(entity.getName().getString())) {
-//                wingModel = new DemonWingModel(1F, playerModel);
-//            } else if(Main.getAngelWings().contains(entity.getName().getString())) {
-//                wingModel = new AngelWingsModel(1, playerModel);
-//            } else {
-//                wingModel = new NewWingModel(1, playerModel);
-////                wingModel = null;
-//            }
-            Color color = null;
-            if(Main.ClientInfo.wingsUUID.contains(entity.getUuidAsString()) || Main.debugMode) {
-                wingModel = new DragonWingsModel(0.5f, playerModel);
+            Color color = new Color(1, 1, 1);
+            if(Main.getDemonWings().contains(entity.getUuidAsString())) {
+                wingModel = new DemonWingModel(1F, playerModel);
+            } else if(Main.getAngelWings().contains(entity.getUuidAsString())) {
+                wingModel = new AngelWingsModel(1, playerModel);
+            } else if(Main.getDragonWings().contains(entity.getUuidAsString())) {
                 color = new Color(Util.rainbow(1));
+                wingModel = new DragonWingsModel(0.5f, playerModel);
+            } else {
+                wingModel = null;
             }
             if(wingModel == null) return;
-            if(color == null) return;
 
             matrixStack.push();
             wingModel.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);

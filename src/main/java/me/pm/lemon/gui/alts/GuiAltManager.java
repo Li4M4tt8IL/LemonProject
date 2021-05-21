@@ -182,8 +182,11 @@ public class GuiAltManager extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         for(AbstractButtonWidget abstractButtonWidget : buttons) {
             if(mouseOver(abstractButtonWidget.x, abstractButtonWidget.y,
-                    abstractButtonWidget.x+abstractButtonWidget.getWidth(), abstractButtonWidget.y+abstractButtonWidget.getHeight()))
-            abstractButtonWidget.onClick(mouseX, mouseY);
+                    abstractButtonWidget.x+abstractButtonWidget.getWidth(), abstractButtonWidget.y+abstractButtonWidget.getHeight())) {
+                if(abstractButtonWidget.active && abstractButtonWidget.visible) {
+                    abstractButtonWidget.onClick(mouseX, mouseY);
+                }
+            }
         }
 
         if(button == 0) {

@@ -25,7 +25,7 @@ public class LogoIcon {
     public void render(MatrixStack matrixStack, int mouseX, int mouseY) {
         GL11.glPushMatrix();
         GL11.glScalef(0.25F, 0.25F, 0F);
-        MinecraftClient.getInstance().getTextureManager().bindTexture(TEXTURE);
+        mc.getTextureManager().bindTexture(TEXTURE);
         parent.parent.drawTexture(matrixStack, x, y, 0, 0, width, height);
         GL11.glPopMatrix();
     }

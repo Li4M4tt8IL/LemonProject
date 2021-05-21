@@ -10,6 +10,7 @@ import me.pm.lemon.gui.hud.HUDManager;
 import me.pm.lemon.gui.clickGui.ClickGuiScreen;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.ModuleManager;
+import me.pm.lemon.module.modules.client.ForcedStuff;
 import me.pm.lemon.module.modules.gui.BindCommandEditor;
 import me.pm.lemon.module.modules.gui.HudEditor;
 import me.pm.lemon.module.modules.gui.ClickGui;
@@ -24,6 +25,7 @@ import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,11 +33,10 @@ import java.util.Objects;
 public class Main implements ModInitializer {
     public static class ClientInfo {
         public static String clientName = "Lemon";
-        public static String clientVersion = "1.2.3";
+        public static String clientVersion = "1.2.6";
         public static String clientCreators = "f9486cc8-6743-4140-9145-4307e86de58a";
         public static String minecraftVersion = MinecraftClient.getInstance().getGame().getVersion().getName();
         public static List<String> clientAuth = Lists.newArrayList();
-        public static List<String> wingsUUID = Lists.newArrayList();
     }
 
     public static boolean loggedIn = false;
@@ -52,6 +53,69 @@ public class Main implements ModInitializer {
         public static KeyBinding freelookKey;
     }
 
+    private static List<String> names = new ArrayList<>();
+    private static List<String> tophats = new ArrayList<>();
+    private static List<String> christmasHats = new ArrayList<>();
+    private static List<String> lightEars = new ArrayList<>();
+    private static List<String> darkEars = new ArrayList<>();
+    private static List<String> orangeFoxEars = new ArrayList<>();
+    private static List<String> whiteFoxEars = new ArrayList<>();
+    private static List<String> demonWings = new ArrayList<>();
+    private static List<String> dragonWings = new ArrayList<>();
+    private static List<String> angelWings = new ArrayList<>();
+
+    public static List<String> getNames() {
+        return names;
+    }
+
+    public static List<String> getTopHats() {
+        return tophats;
+    }
+
+    public static List<String> getChristmasHats() {
+        return christmasHats;
+    }
+
+    public static List<String> getLightEars() {
+        return lightEars;
+    }
+
+    public static List<String> getDarkEars() {
+        return darkEars;
+    }
+
+    public static List<String> getOrangeFoxEars() {
+        return orangeFoxEars;
+    }
+
+    public static List<String> getWhiteFoxEars() {
+        return whiteFoxEars;
+    }
+
+    public static List<String> getDemonWings() {
+        return demonWings;
+    }
+
+    public static List<String> getAngelWings() {
+        return angelWings;
+    }
+
+    public static List<String> getDragonWings() {
+        return dragonWings;
+    }
+
+    public static void reloadApiStats() {
+        names = ApiV2.getInstance().getNames();
+        demonWings = ApiV2.getInstance().getDemonWings();
+        dragonWings = ApiV2.getInstance().getDragonWings();
+        angelWings = ApiV2.getInstance().getAngelWings();
+        tophats = ApiV2.getInstance().getTophats();
+        lightEars = ApiV2.getInstance().getLightEars();
+        darkEars = ApiV2.getInstance().getDarkEars();
+        orangeFoxEars = ApiV2.getInstance().getOrangeFoxEars();
+        whiteFoxEars = ApiV2.getInstance().getWhiteFoxEars();
+    }
+
     public static final String MOD_ID = "lemon";
 
     public static boolean isPanic = false;
@@ -65,10 +129,6 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ClientInfo.wingsUUID.add(ClientInfo.clientCreators);
-        ClientInfo.wingsUUID.add("04731cb9-5c8a-4e40-a827-8efca7634129");
-        ClientInfo.wingsUUID.add("de987d75-b315-4920-ab93-ca148b19115d");
-
         ClientKeys.zoomKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("Zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "Misc"));
         ClientKeys.freelookKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("Free Look", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "Misc"));
         FileHelper.init();
@@ -87,19 +147,15 @@ public class Main implements ModInitializer {
 
         FileManager.readModules();
         FileManager.setLegit();
-//        ClientScreens.clickGuiScreen = new ClickGuiScreen();
-//        ClientScreens.clickGuiScreen.initWindows();
 
         ClientScreens.bindClickGuiScreen = new BindCommandScreen();
 
         if(FileHelper.first_run) {
-//            ClientScreens.clickGuiScreen.resetGui();
-//            Module.getModule(ForcedStuff.class).toggle();
+
         } else {
             FileManager.readPrefix();
         }
 
-//        FileManager.readClickGui();
 
         ClientScreens.hudManager = HUDManager.getInstance();
 
@@ -108,7 +164,9 @@ public class Main implements ModInitializer {
         EventManager.register(ClientScreens.hudManager);
         ModuleManager.registerHud(ClientScreens.hudManager);
 
-        addToAuth();
+//        addToAuth();
+        reloadApiStats();
+        Module.getModule(ForcedStuff.class).toggle();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
@@ -131,11 +189,9 @@ public class Main implements ModInitializer {
         }
         FileManager.updateFriendList();
         FileManager.updateBindCommands();
-//        FileManager.saveAlts();
         FileManager.saveModules();
         FileManager.saveAlts();
-//        FileManager.saveClickGui();
-//        ApiManager.getInstance().deletePlayerUUID(ApiManager.getInstance().uuid);
+        ApiV2.getInstance().updatePlayer(ApiV2.getInstance().name, false);
     }
 
     public static void addToAuth() {

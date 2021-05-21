@@ -29,6 +29,43 @@ dependencies {
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
+
+	include(implementation("com.googlecode.json-simple:json-simple:1.1.1"))
+
+	include(implementation("io.rest-assured:rest-assured:4.3.3"))
+	include(implementation("io.rest-assured:rest-assured-common:4.3.3"))
+	include(implementation("io.rest-assured:json-path:4.3.3"))
+	include(implementation("io.rest-assured:xml-path:4.3.3"))
+
+	include(implementation("org.apache.httpcomponents:httpmime:4.3.1"))
+	include(implementation("org.codehaus.groovy:groovy:3.0.7"))
+	include(implementation("org.codehaus.groovy:groovy-json:3.0.7"))
+	include(implementation("org.hamcrest:hamcrest:2.2"))
+
+	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+	compile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.3'
+	compile group: 'io.rest-assured', name: 'rest-assured-common', version: '4.3.3'
+	compile group: 'io.rest-assured', name: 'json-path', version: '4.3.3'
+	compile group: 'io.rest-assured', name: 'xml-path', version: '4.3.3'
+
+	compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.1'
+	compile group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+
+	compile group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
+	compile group: 'org.codehaus.groovy', name: 'groovy-json', version: '3.0.7'
+
+	include(implementation("com.thoughtworks.xstream:xstream:1.4.15"))
+	include(implementation("com.tunnelvisionlabs:antlr4-runtime:4.9.0"))
+	include(implementation("org.apache.ivy:ivy:2.5.0"))
+	include(implementation("org.codehaus.gpars:gpars:1.2.1"))
+	include(implementation("org.fusesource.jansi:jansi:2.2.0"))
+
+	compile group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.15'
+	compile group: 'com.tunnelvisionlabs', name: 'antlr4-runtime', version: '4.9.0'
+	compile group: 'org.apache.ivy', name: 'ivy', version: '2.5.0'
+	compile group: 'org.codehaus.gpars', name: 'gpars', version: '1.2.1'
+	compile group: 'org.fusesource.jansi', name: 'jansi', version: '2.2.0'
 }
 
 processResources {

@@ -1,6 +1,9 @@
 package me.pm.lemon.utils.generalUtils;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
@@ -12,6 +15,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -43,6 +47,21 @@ public class WorldRenderUtils {
 
         mc.textRenderer.draw(new MatrixStack(), str, -i, 0, 553648127);
         mc.textRenderer.draw(new MatrixStack(), str, -i, 0, -1);
+
+        glCleanup();
+    }
+
+    public static void drawIcon(Identifier TEXTURE, String str, double x, double y, double z, double scale) {
+        glSetup(x, y, z);
+
+        GL11.glScaled(-0.025 * scale, -0.025 * scale, 0.025 * scale);
+
+        int i = mc.textRenderer.getWidth(str) / 2;
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+        RenderSystem.disableBlend();
+        mc.getTextureManager().bindTexture(TEXTURE);
+        Screen.drawTexture(new MatrixStack(), 0, 0, 0, 0, 32, 32, 32, 32);
 
         glCleanup();
     }
@@ -109,7 +128,6 @@ public class WorldRenderUtils {
 
         GL11.glEnable(GL11.GL_BLEND);
         GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-
     }
 
     public static void glCleanup() {

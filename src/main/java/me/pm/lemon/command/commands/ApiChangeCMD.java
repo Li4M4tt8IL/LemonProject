@@ -4,6 +4,8 @@ import me.pm.lemon.Main;
 import me.pm.lemon.command.Command;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.module.modules.gui.ClickGui;
+import me.pm.lemon.utils.ApiV2;
+import me.pm.lemon.utils.LemonLogger;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class ApiChangeCMD extends Command {
     public List<String> getSuggestedArgs() {
         List<String> list = new ArrayList<>();
         list.add("?name=%s&online=%s&hat=%s&wings=%s");
-        list.add("name");
+        list.add("uuid");
         list.add("online");
         list.add("hat");
         list.add("wings");
@@ -53,17 +55,19 @@ public class ApiChangeCMD extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-//        if(args.length == 2) {
-//            ApiV2.getInstance().updatePlayer(args[0], Boolean.parseBoolean(args[1]));
-//        } else if(args.length == 4) {
-//            ApiV2.getInstance().updatePlayer(args[0], Boolean.parseBoolean(args[1]), args[2], args[3]);
-//        } else if(args.length == 1) {
-//            ApiV2.getInstance().updatePlayer(args[0]);
-////            ?name=%s&online=%s&tophat=%s&wings=%s
-//        } else if (args.length == 3) {
+        if(args.length == 2) {
+            ApiV2.getInstance().updatePlayerWithName(args[0], Boolean.parseBoolean(args[1]));
+        } else if(args.length == 4) {
+            ApiV2.getInstance().updatePlayerWithName(args[0], Boolean.parseBoolean(args[1]), args[2], args[3]);
+        } else if(args.length == 1) {
+            ApiV2.getInstance().updatePlayer(args[0]);
+//            ?name=%s&online=%s&tophat=%s&wings=%s
+        }
+//        else if (args.length == 3) {
 //            ApiV2.getInstance().updatePlayer(String.format("?name=%s&online=%s&hat=%s", args[0], args[1], args[2]));
-//        } else {
-//            PMLogger.errorMessage("Syntax error!");
 //        }
+        else {
+            LemonLogger.errorMessage("Error","Syntax error!");
+        }
     }
 }

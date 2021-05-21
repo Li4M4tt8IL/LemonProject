@@ -49,14 +49,14 @@ public class Module {
 
     public void onEnable() {
         EventManager.register(this);
-        if(Module.getModule(Hud.class).getSetting(8).asToggle().state) {
+        if(Module.getModule(Hud.class).getSetting(8).asToggle().state && mc.textRenderer  != null) {
             NotificationManager.show(new Notification(NotificationType.INFO, getName(), getName()+" enabled", 1));
         }
     }
 
     public void onDisable() {
         EventManager.unregister(this);
-        if(Module.getModule(Hud.class).getSetting(8).asToggle().state) {
+        if(Module.getModule(Hud.class).getSetting(8).asToggle().state && mc.textRenderer  != null) {
             NotificationManager.show(new Notification(NotificationType.INFO, getName(), getName()+" disabled", 1));
         }
     }

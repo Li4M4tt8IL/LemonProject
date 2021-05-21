@@ -22,6 +22,7 @@ public class CommandManager {
         registerCommand(new VClip());
         registerCommand(new HClip());
         registerCommand(new ApiChangeCMD());
+        registerCommand(new GetOnlineLemonUsersCMD());
     }
 
     public void registerCommand(Command c) {

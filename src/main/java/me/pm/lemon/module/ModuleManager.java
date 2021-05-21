@@ -8,6 +8,7 @@ import me.pm.lemon.event.events.*;
 import me.pm.lemon.gui.hud.HUDManager;
 import me.pm.lemon.module.modules.chat.BindCommands;
 import me.pm.lemon.module.modules.chat.NameMention;
+import me.pm.lemon.module.modules.client.ForcedStuff;
 import me.pm.lemon.module.modules.combat.*;
 import me.pm.lemon.module.modules.movement.Jesus;
 import me.pm.lemon.module.modules.experimental.ServerCrash;
@@ -25,6 +26,8 @@ import me.pm.lemon.module.modules.world.BedNuker;
 import me.pm.lemon.module.modules.world.Nuker;
 import me.pm.lemon.module.modules.world.Scaffold;
 import me.pm.lemon.module.modules.world.Xray;
+import me.pm.lemon.utils.ApiV2;
+import me.pm.lemon.utils.Timer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import org.apache.commons.lang3.StringUtils;
@@ -36,8 +39,6 @@ public class ModuleManager {
     public static ArrayList<Module> modules;
     public static ArrayList<Module> legitModules;
     public static ArrayList<Module> nonLegitModules;
-    private int delaySeconds = 500;
-    private int tickCounter = 0;
     private boolean loaded = false;
 
     private MinecraftClient mc = MinecraftClient.getInstance();
@@ -327,7 +328,7 @@ public class ModuleManager {
         registerModule(new TestGui("TestGui", Category.EXPERIMENTAL, "test gui", -1, Colors.EXPERIMENTAL), false);
 
         /* CLIENT */
-//        registerModule(new ForcedStuff());
+        registerModule(new ForcedStuff(), true);
 
     }
 
@@ -381,20 +382,22 @@ public class ModuleManager {
         }
     }
 
+    private Timer timer = new Timer();
+
     @EventTarget
     public void onTick(TickEvent event) {
         assert mc.player != null;
         if(!loaded) {
-            if(mc.player.getUuidAsString().equals(Main.ClientInfo.clientCreators) || Main.debugMode) {
-
-            }
+            ApiV2.getInstance().updatePlayer(mc.player.getUuidAsString(), true);
+            Main.reloadApiStats();
             loaded = true;
         }
-        if(tickCounter > (delaySeconds * 20)) {
-            Thread thread = new Thread(Main::reloadAuthUsers);
+        if(timer.getSecondsPassed() >= 60) {
+            Thread thread = new Thread(Main::reloadApiStats);
             thread.start();
-            tickCounter = 0;
+            timer = new Timer();
         }
+
     }
 
     public static ArrayList<Module> getModules() {
