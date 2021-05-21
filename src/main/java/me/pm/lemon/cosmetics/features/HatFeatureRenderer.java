@@ -30,17 +30,17 @@ public class HatFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEnti
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity entity,float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         try {
-            if(Main.getTopHats().contains(entity.getUuidAsString())) {
+            if(Main.getTopHats().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 hatModel = new TopHatModel(1F, playerModel);
-            } else if(Main.getDarkEars().contains(entity.getUuidAsString())) {
+            } else if(Main.getDarkEars().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 hatModel = new CatEarModel(1F, playerModel, "dark");
-            } else if(Main.getLightEars().contains(entity.getUuidAsString())) {
+            } else if(Main.getLightEars().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 hatModel = new CatEarModel(1F, playerModel, "light");
-            } else if(Main.getChristmasHats().contains(entity.getUuidAsString())) {
+            } else if(Main.getChristmasHats().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 hatModel = new ChristmasHatModel(1F, playerModel);
-            } else if(Main.getOrangeFoxEars().contains(entity.getUuidAsString())) {
+            } else if(Main.getOrangeFoxEars().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 hatModel = new FoxEarModel(1F, playerModel, "orange");
-            } else if(Main.getWhiteFoxEars().contains(entity.getUuidAsString())) {
+            } else if(Main.getWhiteFoxEars().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 hatModel = new FoxEarModel(1F, playerModel, "white");
             } else {
                 hatModel = null;

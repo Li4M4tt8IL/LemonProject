@@ -33,7 +33,7 @@ import java.util.Objects;
 public class Main implements ModInitializer {
     public static class ClientInfo {
         public static String clientName = "Lemon";
-        public static String clientVersion = "1.2.7";
+        public static String clientVersion = "1.2.8";
         public static String clientCreators = "f9486cc8-6743-4140-9145-4307e86de58a";
         public static String minecraftVersion = MinecraftClient.getInstance().getGame().getVersion().getName();
         public static List<String> clientAuth = Lists.newArrayList();

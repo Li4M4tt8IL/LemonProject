@@ -33,11 +33,11 @@ public class WingFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEnt
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         try {
             Color color = new Color(1, 1, 1);
-            if(Main.getDemonWings().contains(entity.getUuidAsString())) {
+            if(Main.getDemonWings().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 wingModel = new DemonWingModel(1F, playerModel);
-            } else if(Main.getAngelWings().contains(entity.getUuidAsString())) {
+            } else if(Main.getAngelWings().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 wingModel = new AngelWingsModel(1, playerModel);
-            } else if(Main.getDragonWings().contains(entity.getUuidAsString())) {
+            } else if(Main.getDragonWings().contains(entity.getUuidAsString().replaceAll("-", ""))) {
                 color = new Color(Util.rainbow(1));
                 wingModel = new DragonWingsModel(0.5f, playerModel);
             } else {
