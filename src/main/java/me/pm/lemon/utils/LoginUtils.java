@@ -5,16 +5,14 @@ import me.pm.lemon.Main;
 public class LoginUtils {
 
     public static boolean login(String email, String password) {
-        if(Main.debugMode) {
+        if (Main.debugMode) {
             Main.loggedIn = true;
             return true;
-        } else if(email.equals("admin@lemon.com") && password.equals("LemonClient")) {
-            FileManager.saveLogin(email, password);
-            Main.loggedIn = true;
-            return true;
-        } else {
-            // TODO: Server connection
-            return false;
         }
+        if(Main.ClientInfo.logins.get(email).equals(password)) {
+            FileManager.saveLogin(email, password);
+            return true;
+        }
+        return false;
     }
 }

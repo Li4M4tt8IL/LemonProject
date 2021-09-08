@@ -25,18 +25,17 @@ import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Main implements ModInitializer {
     public static class ClientInfo {
         public static String clientName = "Lemon";
-        public static String clientVersion = "1.2.9";
-        public static String clientCreators = "f9486cc8-6743-4140-9145-4307e86de58a";
+        public static String clientVersion = "2.0.0";
+        public static String clientCreators = "f9486cc86743414091454307e86de58a";
         public static String minecraftVersion = MinecraftClient.getInstance().getGame().getVersion().getName();
         public static List<String> clientAuth = Lists.newArrayList();
+        public static Map<String, String> logins = new HashMap<>();
     }
 
     public static boolean loggedIn = false;
@@ -105,15 +104,15 @@ public class Main implements ModInitializer {
     }
 
     public static void reloadApiStats() {
-        names = ApiV2.getInstance().getNames();
-        demonWings = ApiV2.getInstance().getDemonWings();
-        dragonWings = ApiV2.getInstance().getDragonWings();
-        angelWings = ApiV2.getInstance().getAngelWings();
-        tophats = ApiV2.getInstance().getTophats();
-        lightEars = ApiV2.getInstance().getLightEars();
-        darkEars = ApiV2.getInstance().getDarkEars();
-        orangeFoxEars = ApiV2.getInstance().getOrangeFoxEars();
-        whiteFoxEars = ApiV2.getInstance().getWhiteFoxEars();
+//        names = ApiV2.getInstance().getNames();
+//        demonWings = ApiV2.getInstance().getDemonWings();
+//        dragonWings = ApiV2.getInstance().getDragonWings();
+//        angelWings = ApiV2.getInstance().getAngelWings();
+//        tophats = ApiV2.getInstance().getTophats();
+//        lightEars = ApiV2.getInstance().getLightEars();
+//        darkEars = ApiV2.getInstance().getDarkEars();
+//        orangeFoxEars = ApiV2.getInstance().getOrangeFoxEars();
+//        whiteFoxEars = ApiV2.getInstance().getWhiteFoxEars();
     }
 
     public static final String MOD_ID = "lemon";
@@ -156,7 +155,6 @@ public class Main implements ModInitializer {
             FileManager.readPrefix();
         }
 
-
         ClientScreens.hudManager = HUDManager.getInstance();
 
         ClientScreens.testScreen = new ClickGuiScreen();
@@ -165,8 +163,8 @@ public class Main implements ModInitializer {
         ModuleManager.registerHud(ClientScreens.hudManager);
 
 //        addToAuth();
-        reloadApiStats();
-        Module.getModule(ForcedStuff.class).toggle();
+//        reloadApiStats();
+//        Module.getModule(ForcedStuff.class).toggle();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
@@ -191,7 +189,7 @@ public class Main implements ModInitializer {
         FileManager.updateBindCommands();
         FileManager.saveModules();
         FileManager.saveAlts();
-        ApiV2.getInstance().updatePlayer(ApiV2.getInstance().name, false);
+//        ApiV2.getInstance().updatePlayer(ApiV2.getInstance().name, false);
     }
 
     public static void addToAuth() {

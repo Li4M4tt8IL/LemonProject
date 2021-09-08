@@ -1,13 +1,16 @@
 package me.pm.lemon.mixin;
 
 import me.pm.lemon.module.Module;
+import me.pm.lemon.module.modules.combat.Reach;
 import me.pm.lemon.module.modules.exploits.SpeedMine;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {
@@ -53,4 +56,19 @@ public class ClientPlayerInteractionManagerMixin {
 
         this.blockBreakingCooldown = i;
     }
+
+    @Inject(at = {@At("HEAD")},
+            method = {"getReachDistance()F"},
+            cancellable = true)
+    private void onGetReachDistance(CallbackInfoReturnable<Float> ci) {
+        ci.setReturnValue((float) Module.getModule(Reach.class).getSetting(0).asSlider().getValue());
+    }
+
+    @Inject(at = {@At("HEAD")},
+            method = {"hasExtendedReach()Z"},
+            cancellable = true)
+    private void hasExtendedReach(CallbackInfoReturnable<Boolean> cir) {
+            cir.setReturnValue(Module.getModule(Reach.class).isToggled());
+    }
+
 }

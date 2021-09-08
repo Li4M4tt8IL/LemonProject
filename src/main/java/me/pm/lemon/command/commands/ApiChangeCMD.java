@@ -55,19 +55,19 @@ public class ApiChangeCMD extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-        if(args.length == 2) {
-            ApiV2.getInstance().updatePlayerWithName(args[0], Boolean.parseBoolean(args[1]));
-        } else if(args.length == 4) {
-            ApiV2.getInstance().updatePlayerWithName(args[0], Boolean.parseBoolean(args[1]), args[2], args[3]);
-        } else if(args.length == 1) {
-            ApiV2.getInstance().updatePlayer(args[0]);
-//            ?name=%s&online=%s&tophat=%s&wings=%s
-        }
-//        else if (args.length == 3) {
-//            ApiV2.getInstance().updatePlayer(String.format("?name=%s&online=%s&hat=%s", args[0], args[1], args[2]));
+//        if(args.length == 2) {
+//            ApiV2.getInstance().updatePlayerWithName(args[0], Boolean.parseBoolean(args[1]));
+//        } else if(args.length == 4) {
+//            ApiV2.getInstance().updatePlayerWithName(args[0], Boolean.parseBoolean(args[1]), args[2], args[3]);
+//        } else if(args.length == 1) {
+//            ApiV2.getInstance().updatePlayer(args[0]);
+////            ?name=%s&online=%s&tophat=%s&wings=%s
 //        }
-        else {
-            LemonLogger.errorMessage("Error","Syntax error!");
-        }
+////        else if (args.length == 3) {
+////            ApiV2.getInstance().updatePlayer(String.format("?name=%s&online=%s&hat=%s", args[0], args[1], args[2]));
+////        }
+//        else {
+//            LemonLogger.errorMessage("Error","Syntax error!");
+//        }
     }
 }

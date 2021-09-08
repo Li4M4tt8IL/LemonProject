@@ -113,6 +113,9 @@ public class FileManager {
     public static String getLogin() {
         if(FileHelper.fileExists("account.txt")) {
             List<String> lines = FileHelper.readFileLines("account.txt");
+            if(lines.isEmpty()) {
+                return null;
+            }
             String username = lines.get(0).split(":")[0];
             String passwd = lines.get(0).split(":")[1];
             return decrypt(username)+":"+decrypt(passwd);

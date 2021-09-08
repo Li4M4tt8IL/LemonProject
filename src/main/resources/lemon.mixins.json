@@ -31,7 +31,8 @@
     "TitleScreenMixin",
     "MouseMixin",
     "CameraMixin",
-    "IFramebuffer"
+    "IFramebuffer",
+    "Matrix4fMixin"
   ],
   "injectors": {
     "defaultRequire": 1

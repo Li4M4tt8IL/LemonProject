@@ -52,6 +52,7 @@ public class ModuleManager {
         public static CrystalAura crystalAura = null;
         public static KillAura killAura = null;
         public static TriggerBot triggerBot = null;
+        public static Reach reach = null;
 
         public static OutlineBlock outlineBlock = null;
         public static Chams chams = null;
@@ -127,6 +128,8 @@ public class ModuleManager {
                 new KillAura("Kill Aura", Category.COMBAT, "Automatycznie zabija obiekt", GLFW.GLFW_KEY_UNKNOWN, Colors.COMBAT);
         Instances.triggerBot =
                 new TriggerBot("Trigger Bot", Category.COMBAT, "Atakuje obiekt po najechaniu na niego.", GLFW.GLFW_KEY_UNKNOWN, Colors.COMBAT);
+        Instances.reach =
+                new Reach("Reach", Category.COMBAT, "Powieksza reacha.", GLFW.GLFW_KEY_UNKNOWN, Colors.COMBAT);
 
         registerModule(Instances.antiFriendHit, true);
         registerModule(Instances.antiVillagerHit, true);
@@ -136,6 +139,7 @@ public class ModuleManager {
         registerModule(Instances.crystalAura, false);
         registerModule(Instances.killAura, false);
         registerModule(Instances.triggerBot, false);
+        registerModule(Instances.reach, false);
     }
 
     public void initRender() {
@@ -384,21 +388,21 @@ public class ModuleManager {
 
     private Timer timer = new Timer();
 
-    @EventTarget
-    public void onTick(TickEvent event) {
-        assert mc.player != null;
-        if(!loaded) {
-            ApiV2.getInstance().updatePlayer(mc.player.getUuidAsString(), true);
-            Main.reloadApiStats();
-            loaded = true;
-        }
-        if(timer.getSecondsPassed() >= 60) {
-            Thread thread = new Thread(Main::reloadApiStats);
-            thread.start();
-            timer = new Timer();
-        }
-
-    }
+//    @EventTarget
+//    public void onTick(TickEvent event) {
+//        assert mc.player != null;
+//        if(!loaded) {
+//            ApiV2.getInstance().updatePlayer(mc.player.getUuidAsString(), true);
+//            Main.reloadApiStats();
+//            loaded = true;
+//        }
+//        if(timer.getSecondsPassed() >= 60) {
+//            Thread thread = new Thread(Main::reloadApiStats);
+//            thread.start();
+//            timer = new Timer();
+//        }
+//
+//    }
 
     public static ArrayList<Module> getModules() {
         return modules;

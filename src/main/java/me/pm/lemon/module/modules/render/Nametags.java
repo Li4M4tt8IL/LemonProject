@@ -6,8 +6,12 @@ import me.pm.lemon.gui.clickGui.settings.*;
 import me.pm.lemon.module.Category;
 import me.pm.lemon.module.Module;
 import me.pm.lemon.utils.generalUtils.EntityUtil;
+import me.pm.lemon.utils.generalUtils.NametagUtils;
+import me.pm.lemon.utils.generalUtils.Vec3;
 import me.pm.lemon.utils.generalUtils.WorldRenderUtils;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -16,9 +20,24 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Nametags extends Module {
+
+    private final Vec3 pos = new Vec3();
+    private final double[] itemWidths = new double[6];
+    private final Color WHITE = new Color(255, 255, 255);
+    private final Color RED = new Color(255, 25, 25);
+    private final Color AMBER = new Color(255, 105, 25);
+    private final Color GREEN = new Color(25, 252, 25);
+    private final Color GOLD = new Color(232, 185, 35);
+    private final Color GREY = new Color(150, 150, 150);
+    private final Color METEOR = new Color(135, 0, 255);
+    private final Color BLUE = new Color(20, 170, 170);
+    private final Map<Enchantment, Integer> enchantmentsToShowScale = new HashMap<>();
+
     public Nametags(String name, Category category, String description, int keyCode, Color color) {
         super(name, category, description, keyCode, color,
                 new SettingToggle("Players", true).withChildren(
@@ -87,16 +106,19 @@ public class Nametags extends Module {
                 if(getSetting(3).asToggle().state) {
                     double c = 0;
                     MatrixStack matrixStack = new MatrixStack();
-                    WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
-                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
-                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), -2.5, 0, scale, e.getEquippedStack(EquipmentSlot.MAINHAND));
-                    WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
-                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
-                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), 2.5, 0, scale, e.getEquippedStack(EquipmentSlot.OFFHAND));
+                    renderNametagItem(e.getEquippedStack(EquipmentSlot.MAINHAND));
+                    renderNametagItem(e.getEquippedStack(EquipmentSlot.OFFHAND));
+//                    WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
+//                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), -2.5, 0, scale, e.getEquippedStack(EquipmentSlot.MAINHAND));
+//                    WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
+//                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), 2.5, 0, scale, e.getEquippedStack(EquipmentSlot.OFFHAND));
                     for (ItemStack i: ((PlayerEntity) e).inventory.armor) {
-                        WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
-                                (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
-                                e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), c+1.5, 0, scale, i);
+//                        WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                                (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
+//                                e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), c+1.5, 0, scale, i);
+                        renderNametagItem(i);
                         c--;
                     }
                 }
@@ -129,5 +151,29 @@ public class Nametags extends Module {
         } else {
             return "\u00a74";
         }
+    }
+
+    private void renderNametagItem(ItemStack stack) {
+        TextRenderer text = mc.textRenderer;
+        NametagUtils.begin(pos);
+
+        String name = stack.getName().getString();
+        String count = " x" + stack.getCount();
+
+        double nameWidth = text.getWidth(name);
+        double countWidth = text.getWidth(count);
+        double heightDown = 12;
+
+        double width = nameWidth;
+        width += countWidth;
+        double widthHalf = width / 2;
+
+        double hX = -widthHalf;
+        double hY = -heightDown;
+
+        hX = text.draw(new MatrixStack(), name, (int) hX, (int) hY, WHITE.getRGB());
+        text.draw(new MatrixStack(), count, (int) hX, (int) hY, GOLD.getRGB());
+
+        NametagUtils.end();
     }
 }

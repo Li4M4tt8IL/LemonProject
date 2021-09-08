@@ -1,9 +1,15 @@
 package me.pm.lemon.utils.generalUtils;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
@@ -12,11 +18,19 @@ import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class EntityUtil {
     private static Object AmbientEntity;
@@ -62,6 +76,110 @@ public class EntityUtil {
 //        Vec3d renderPos = Wrapper.getRenderPosition();
 //        return getInterpolatedPos(entity, ticks).subtract(renderPos);
 //    }
+
+    public static boolean isAttackable(EntityType<?> type) {
+        return type != EntityType.AREA_EFFECT_CLOUD && type != EntityType.ARROW && type != EntityType.FALLING_BLOCK && type != EntityType.FIREWORK_ROCKET && type != EntityType.ITEM && type != EntityType.LLAMA_SPIT && type != EntityType.SPECTRAL_ARROW && type != EntityType.ENDER_PEARL && type != EntityType.EXPERIENCE_BOTTLE && type != EntityType.POTION && type != EntityType.TRIDENT && type != EntityType.LIGHTNING_BOLT && type != EntityType.FISHING_BOBBER && type != EntityType.EXPERIENCE_ORB && type != EntityType.EGG;
+    }
+
+    public static float getTotalHealth(PlayerEntity target) {
+        return target.getHealth() + target.getAbsorptionAmount();
+    }
+
+    public static int getPing(PlayerEntity player) {
+        if (mc.getNetworkHandler() == null) return 0;
+
+        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+        if (playerListEntry == null) return 0;
+        return playerListEntry.getLatency();
+    }
+
+    public static GameMode getGameMode(PlayerEntity player) {
+        if (player == null) return GameMode.SPECTATOR;
+        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+        if (playerListEntry == null) return GameMode.SPECTATOR;
+        return playerListEntry.getGameMode();
+    }
+
+    public static boolean isInRenderDistance(Entity entity) {
+        if (entity == null) return false;
+        return isInRenderDistance(entity.getX(), entity.getZ());
+    }
+
+    public static boolean isInRenderDistance(BlockEntity entity) {
+        if (entity == null) return false;
+        return isInRenderDistance(entity.getPos().getX(), entity.getPos().getZ());
+    }
+
+    public static boolean isInRenderDistance(BlockPos pos) {
+        if (pos == null) return false;
+        return isInRenderDistance(pos.getX(), pos.getZ());
+    }
+
+    public static boolean isInRenderDistance(double posX, double posZ) {
+        double x = Math.abs(mc.gameRenderer.getCamera().getPos().x - posX);
+        double z = Math.abs(mc.gameRenderer.getCamera().getPos().z - posZ);
+        double d = (mc.options.viewDistance + 1) * 16;
+
+        return x < d && z < d;
+    }
+
+    public static List<BlockPos> getSurroundBlocks(PlayerEntity player) {
+        if (player == null) return null;
+
+        List<BlockPos> positions = new ArrayList<>();
+
+        for (Direction direction : Direction.values()) {
+            if (direction == Direction.UP || direction == Direction.DOWN) continue;
+
+            BlockPos pos = player.getBlockPos().offset(direction);
+
+            if (mc.world.getBlockState(pos).getBlock() == Blocks.OBSIDIAN) {
+                positions.add(pos);
+            }
+        }
+
+        return positions;
+    }
+
+    public static BlockPos getCityBlock(PlayerEntity player) {
+        List<BlockPos> posList = getSurroundBlocks(player);
+        posList.sort(Comparator.comparingDouble(EntityUtil::distanceTo));
+        return posList.isEmpty() ? null : posList.get(0);
+    }
+
+    public static String getName(Entity entity) {
+        if (entity == null) return null;
+        if (entity instanceof PlayerEntity) return entity.getEntityName();
+        return entity.getType().getName().getString();
+    }
+
+    public static double distanceTo(Entity entity) {
+        return distanceTo(entity.getX(), entity.getY(), entity.getZ());
+    }
+
+    public static double distanceTo(BlockPos blockPos) {
+        return distanceTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
+
+    public static double distanceTo(Vec3d vec3d) {
+        return distanceTo(vec3d.getX(), vec3d.getY(), vec3d.getZ());
+    }
+
+    public static double distanceTo(double x, double y, double z) {
+        float f = (float) (mc.player.getX() - x);
+        float g = (float) (mc.player.getY() - y);
+        float h = (float) (mc.player.getZ() - z);
+        return MathHelper.sqrt(f * f + g * g + h * h);
+    }
+
+    public static double distanceToCamera(double x, double y, double z) {
+        Camera camera = mc.gameRenderer.getCamera();
+        return Math.sqrt(camera.getPos().squaredDistanceTo(x, y, z));
+    }
+
+    public static double distanceToCamera(Entity entity) {
+        return distanceToCamera(entity.getX(), entity.getY(), entity.getZ());
+    }
 
     public static boolean isInWater(Entity entity) {
         if(entity == null) return false;

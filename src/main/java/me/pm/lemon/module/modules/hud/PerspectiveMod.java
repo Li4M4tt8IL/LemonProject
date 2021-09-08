@@ -24,6 +24,35 @@ public class PerspectiveMod extends ModuleDraggable {
     private static boolean held = false;
     private static boolean holdMode = true;
 
+    @EventTarget
+    public void onTick(TickEvent e) {
+        if(mc.player != null) {
+            if (holdMode) {
+                this.perspectiveEnabled = Main.ClientKeys.freelookKey.isPressed();
+                if (this.perspectiveEnabled && !this.held) {
+                    this.held = true;
+                    this.cameraPitch = mc.player.pitch;
+                    this.cameraYaw = mc.player.yaw;
+                    mc.options.setPerspective(Perspective.THIRD_PERSON_BACK);
+                }
+            } else if (Main.ClientKeys.freelookKey.wasPressed()) {
+                this.perspectiveEnabled = !this.perspectiveEnabled;
+                this.cameraPitch = mc.player.pitch;
+                this.cameraYaw = mc.player.yaw;
+                mc.options.setPerspective(this.perspectiveEnabled ? Perspective.THIRD_PERSON_BACK : Perspective.FIRST_PERSON);
+            }
+
+            if (!this.perspectiveEnabled && this.held) {
+                this.held = false;
+                mc.options.setPerspective(Perspective.FIRST_PERSON);
+            }
+
+            if (this.perspectiveEnabled && mc.options.getPerspective() != Perspective.THIRD_PERSON_BACK) {
+                this.perspectiveEnabled = false;
+            }
+        }
+    }
+
     @Override
     public int getWidth() {
         return mc.textRenderer.getWidth("[Perspective Toggled]");
@@ -32,35 +61,6 @@ public class PerspectiveMod extends ModuleDraggable {
     @Override
     public int getHeight() {
         return mc.textRenderer.fontHeight;
-    }
-
-    @EventTarget
-    public void onTick(TickEvent e) {
-            if(mc.player != null) {
-                if (holdMode) {
-                    this.perspectiveEnabled = Main.ClientKeys.freelookKey.isPressed();
-                    if (this.perspectiveEnabled && !this.held) {
-                        this.held = true;
-                        this.cameraPitch = mc.player.pitch;
-                        this.cameraYaw = mc.player.yaw;
-                        mc.options.setPerspective(Perspective.THIRD_PERSON_BACK);
-                    }
-                } else if (Main.ClientKeys.freelookKey.wasPressed()) {
-                    this.perspectiveEnabled = !this.perspectiveEnabled;
-                    this.cameraPitch = mc.player.pitch;
-                    this.cameraYaw = mc.player.yaw;
-                    mc.options.setPerspective(this.perspectiveEnabled ? Perspective.THIRD_PERSON_BACK : Perspective.FIRST_PERSON);
-                }
-
-                if (!this.perspectiveEnabled && this.held) {
-                    this.held = false;
-                    mc.options.setPerspective(Perspective.FIRST_PERSON);
-                }
-
-                if (this.perspectiveEnabled && mc.options.getPerspective() != Perspective.THIRD_PERSON_BACK) {
-                    this.perspectiveEnabled = false;
-                }
-            }
     }
 
     @Override

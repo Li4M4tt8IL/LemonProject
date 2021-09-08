@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.Entity;
@@ -73,6 +74,25 @@ public class Util {
             Blocks.SPRUCE_SIGN, Blocks.SPRUCE_WALL_SIGN);
 
     private static MinecraftClient mc = MinecraftClient.getInstance();
+
+    public static int clamp(int value, int min, int max) {
+        if (value < min) return min;
+        return Math.min(value, max);
+    }
+
+    public static float clamp(float value, float min, float max) {
+        if (value < min) return min;
+        return Math.min(value, max);
+    }
+
+    public static double clamp(double value, double min, double max) {
+        if (value < min) return min;
+        return Math.min(value, max);
+    }
+
+    public static String getEnchantSimpleName(Enchantment enchantment, int length) {
+        return enchantment.getName(0).getString().substring(0, length);
+    }
 
     public static synchronized void faceEntity(Entity entity) {
         final float[] rotations = getRotationsNeeded(entity);

@@ -40,8 +40,8 @@ public abstract class TitleScreenMixin extends Screen {
 //        event.call();
 
 //        if(event.isCancelled()) info.cancel();
-        if(!Main.loggedIn) {
-            MinecraftClient.getInstance().openScreen(new LoginScreen());
-        }
+//        if(!Main.loggedIn) {
+//            MinecraftClient.getInstance().openScreen(new LoginScreen());
+//        }
     }
 }
