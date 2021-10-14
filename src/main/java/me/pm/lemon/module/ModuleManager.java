@@ -1,5 +1,6 @@
 package me.pm.lemon.module;
 
+import jdk.jfr.internal.test.WhiteBox;
 import me.pm.lemon.Main;
 import me.pm.lemon.command.Command;
 import me.pm.lemon.event.EventManager;
@@ -10,6 +11,7 @@ import me.pm.lemon.module.modules.chat.BindCommands;
 import me.pm.lemon.module.modules.chat.NameMention;
 import me.pm.lemon.module.modules.client.ForcedStuff;
 import me.pm.lemon.module.modules.combat.*;
+import me.pm.lemon.module.modules.misc.FakeVanilla;
 import me.pm.lemon.module.modules.movement.Jesus;
 import me.pm.lemon.module.modules.experimental.ServerCrash;
 import me.pm.lemon.module.modules.experimental.TestGui;
@@ -39,7 +41,6 @@ public class ModuleManager {
     public static ArrayList<Module> modules;
     public static ArrayList<Module> legitModules;
     public static ArrayList<Module> nonLegitModules;
-    private boolean loaded = false;
 
     private MinecraftClient mc = MinecraftClient.getInstance();
 
@@ -53,6 +54,7 @@ public class ModuleManager {
         public static KillAura killAura = null;
         public static TriggerBot triggerBot = null;
         public static Reach reach = null;
+        public static Hitboxes hitboxes = null;
 
         public static OutlineBlock outlineBlock = null;
         public static Chams chams = null;
@@ -97,6 +99,7 @@ public class ModuleManager {
         public static Xray xray = null;
 
         public static AntiChunkBan antiChunkBan = null;
+        public static FakeVanilla fakeVanilla = null;
         public static AntiLevitation antiLevitation = null;
         public static MiddleClickFriend middleClickFriend = null;
 
@@ -130,6 +133,8 @@ public class ModuleManager {
                 new TriggerBot("Trigger Bot", Category.COMBAT, "Atakuje obiekt po najechaniu na niego.", GLFW.GLFW_KEY_UNKNOWN, Colors.COMBAT);
         Instances.reach =
                 new Reach("Reach", Category.COMBAT, "Powieksza reacha.", GLFW.GLFW_KEY_UNKNOWN, Colors.COMBAT);
+        Instances.hitboxes =
+                new Hitboxes("Hitboxes", Category.COMBAT, "Powieksza hitboxy.", GLFW.GLFW_KEY_UNKNOWN, Colors.COMBAT);
 
         registerModule(Instances.antiFriendHit, true);
         registerModule(Instances.antiVillagerHit, true);
@@ -140,6 +145,7 @@ public class ModuleManager {
         registerModule(Instances.killAura, false);
         registerModule(Instances.triggerBot, false);
         registerModule(Instances.reach, false);
+        registerModule(Instances.hitboxes, false);
     }
 
     public void initRender() {
@@ -270,12 +276,15 @@ public class ModuleManager {
     public void initMisc() {
         Instances.antiChunkBan =
                 new AntiChunkBan("Anti Chunk Ban", Category.MISC, "Taki antypacketkick.", GLFW.GLFW_KEY_UNKNOWN, Colors.MISC);
+        Instances.fakeVanilla =
+                new FakeVanilla("FakeVanilla", Category.MISC, "Test?.", GLFW.GLFW_KEY_UNKNOWN, Colors.MISC);
         Instances.antiLevitation =
                 new AntiLevitation("Anti Levitation", Category.MISC, "Niszczy te magiczne kule od shulkerow.", GLFW.GLFW_KEY_UNKNOWN, Colors.MISC);
         Instances.middleClickFriend =
                 new MiddleClickFriend("MCF", Category.MISC, "Dodaje gracza do znajomych.", GLFW.GLFW_KEY_UNKNOWN, Colors.MISC);
 
         registerModule(Instances.antiChunkBan, true);
+        registerModule(Instances.fakeVanilla, true);
         registerModule(Instances.antiLevitation, false);
         registerModule(Instances.middleClickFriend, true);
     }

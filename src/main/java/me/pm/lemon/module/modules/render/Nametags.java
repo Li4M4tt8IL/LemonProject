@@ -1,5 +1,6 @@
 package me.pm.lemon.module.modules.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.pm.lemon.event.EventTarget;
 import me.pm.lemon.event.events.EntityRenderEvent;
 import me.pm.lemon.gui.clickGui.settings.*;
@@ -10,16 +11,31 @@ import me.pm.lemon.utils.generalUtils.NametagUtils;
 import me.pm.lemon.utils.generalUtils.Vec3;
 import me.pm.lemon.utils.generalUtils.WorldRenderUtils;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TextColor;
+import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3d;
+import org.apache.commons.lang3.text.WordUtils;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -106,8 +122,6 @@ public class Nametags extends Module {
                 if(getSetting(3).asToggle().state) {
                     double c = 0;
                     MatrixStack matrixStack = new MatrixStack();
-                    renderNametagItem(e.getEquippedStack(EquipmentSlot.MAINHAND));
-                    renderNametagItem(e.getEquippedStack(EquipmentSlot.OFFHAND));
 //                    WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
 //                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
 //                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), -2.5, 0, scale, e.getEquippedStack(EquipmentSlot.MAINHAND));
@@ -118,7 +132,6 @@ public class Nametags extends Module {
 //                        WorldRenderUtils.drawItem(matrixStack,e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
 //                                (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + ((0.75) * scale),
 //                                e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), c+1.5, 0, scale, i);
-                        renderNametagItem(i);
                         c--;
                     }
                 }
@@ -133,6 +146,88 @@ public class Nametags extends Module {
             event.setCancelled(true);
         }
     }
+
+//    @EventTarget
+//    public void onLivingRender(EntityRenderEvent.Render event) {
+//        Vec3d rPos = getRenderPos(event.getEntity());
+//        List<String> lines = new ArrayList<>();
+//        double scale = 0;
+//
+//        if (event.getEntity() instanceof ItemEntity && getSetting(2).asToggle().state) {
+//            ItemEntity e = (ItemEntity) event.getEntity();
+//
+//            double scale = Math.max(getSetting(2).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
+//            if (!e.getName().getString().equals(e.getStack().getName().getString()) && getSetting(2).asToggle().getChild(1).asToggle().state) {
+//                WorldRenderUtils.drawText("\u00a76\"" + e.getStack().getName().getString() + "\"",
+//                        e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                        (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.75f * scale),
+//                        e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);
+//            }
+//
+//            WorldRenderUtils.drawText("\u00A79" + e.getStack().getCount() + "x " + e.getName().getString(),
+//                    e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                    (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.5f * scale),
+//                    e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);
+//        } else if (event.getEntity() instanceof LivingEntity) {
+//            LivingEntity e = (LivingEntity) event.getEntity();
+//            if(e instanceof PlayerEntity && getSetting(0).asToggle().state) {
+//                double scale = Math.max(getSetting(0).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
+//
+//                int ping = 0;
+//                try {
+//                    ping = Objects.requireNonNull(mc.player.networkHandler.getPlayerListEntry(e.getName().getString())).getLatency();
+//                } catch (Exception ignored) { }
+//                String aaa = "";
+////                if(e.getName().getString().equals(Main.ClientInfo.clientCreators)) {
+////                    aaa = Main.getOnlinePlayers().contains(e.getName().getString()) ? "\u00A78[\u00A7bPM DEV\u00A78]\u00A7f " : "";
+////                } else {
+////                    aaa = Main.getOnlinePlayers().contains(e.getName().getString()) ? "\u00A78[\u00A7bPM\u00A78]\u00A7f " : "";
+////                }
+//                if (getFriendManager().isFriend(e.getName().getString())) {
+//                    WorldRenderUtils.drawText("\u00A7b" + aaa + e.getName().getString() + " " + getPingColor(ping) + ping + "ms " + getHealthColor(e) +
+//                                    (int) (e.getHealth() + e.getAbsorptionAmount()),
+//                            e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.5f * scale),
+//                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);
+//                } else {
+//                    WorldRenderUtils.drawText("\u00A7c"+ aaa + e.getName().getString() + " " + getPingColor(ping) + ping + "ms " + getHealthColor(e) +
+//                                    (int) (e.getHealth() + e.getAbsorptionAmount()),
+//                            e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                            (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.5f * scale),
+//                            e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);
+//                }
+//                double c = 0;
+//                double lscale = scale * 0.4;
+//                double up = ((0.3 + lines.size() * 0.25) * scale) + lscale / 2;
+//
+//                if (getSetting(3).asMode().mode == 0) {
+//                    drawItem(rPos.x, rPos.y + up, rPos.z, -2.5, 0, lscale, livingEntity.getEquippedStack(EquipmentSlot.MAINHAND));
+//                    drawItem(rPos.x, rPos.y + up, rPos.z, 2.5, 0, lscale, livingEntity.getEquippedStack(EquipmentSlot.OFFHAND));
+//
+//                    for (ItemStack i : livingEntity.getArmorItems()) {
+//                        drawItem(rPos.x, rPos.y + up, rPos.z, c + 1.5, 0, lscale, i);
+//                        c--;
+//                    }
+//                } else if (getSetting(0).asMode().mode == 1) {
+//                    drawItem(rPos.x, rPos.y + up, rPos.z, -1.25, 0, lscale, livingEntity.getEquippedStack(EquipmentSlot.MAINHAND));
+//                    drawItem(rPos.x, rPos.y + up, rPos.z, 1.25, 0, lscale, livingEntity.getEquippedStack(EquipmentSlot.OFFHAND));
+//
+//                    for (ItemStack i : livingEntity.getArmorItems()) {
+//                        drawItem(rPos.x, rPos.y + up, rPos.z, 0, c, lscale, i);
+//                        c++;
+//                    }
+//                }
+//            } else if((e instanceof Monster || EntityUtil.isAnimal(e)) && getSetting(1).asToggle().state) {
+//                double scale = Math.max(getSetting(1).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
+//                WorldRenderUtils.drawText("\u00A79" + e.getName().getString() + " " + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount()),
+//                        e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
+//                        (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.5f * scale),
+//                        e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);
+//            }
+//
+//            event.setCancelled(true);
+//        }
+//    }
 
     public static String getPingColor(int ping) {
         if (ping < 100) {
@@ -153,27 +248,90 @@ public class Nametags extends Module {
         }
     }
 
-    private void renderNametagItem(ItemStack stack) {
-        TextRenderer text = mc.textRenderer;
-        NametagUtils.begin(pos);
+    /** Draws a 2D gui items somewhere in the world. **/
+    public static void drawGuiItem(double x, double y, double z, double offX, double offY, double scale, ItemStack item) {
+        if (item.isEmpty()) {
+            return;
+        }
 
-        String name = stack.getName().getString();
-        String count = " x" + stack.getCount();
+        MatrixStack matrix = matrixFrom(x, y, z);
 
-        double nameWidth = text.getWidth(name);
-        double countWidth = text.getWidth(count);
-        double heightDown = 12;
+        Camera camera = mc.gameRenderer.getCamera();
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
+        matrix.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
 
-        double width = nameWidth;
-        width += countWidth;
-        double widthHalf = width / 2;
+        matrix.translate(offX, offY, 0);
+        matrix.scale((float) scale, (float) scale, 0.001f);
 
-        double hX = -widthHalf;
-        double hY = -heightDown;
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180f));
 
-        hX = text.draw(new MatrixStack(), name, (int) hX, (int) hY, WHITE.getRGB());
-        text.draw(new MatrixStack(), count, (int) hX, (int) hY, GOLD.getRGB());
+        mc.getBufferBuilders().getEntityVertexConsumers().draw();
 
-        NametagUtils.end();
+        Vector3f[] currentLight = getCurrentLight();
+        DiffuseLighting.disableGuiDepthLighting();
+
+        GL11.glDepthFunc(GL11.GL_ALWAYS);
+        mc.getItemRenderer().renderItem(item, ModelTransformation.Mode.GUI, 0xF000F0,
+                OverlayTexture.DEFAULT_UV, matrix, mc.getBufferBuilders().getEntityVertexConsumers());
+
+        mc.getBufferBuilders().getEntityVertexConsumers().draw();
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
+
+        RenderSystem.setupLevelDiffuseLighting(currentLight[0], currentLight[1], Matrix4f.translate(0f, 0f, 0f));
+    }
+
+    private void drawItem(double x, double y, double z, double offX, double offY, double scale, ItemStack item) {
+        drawGuiItem(x, y, z, offX * scale, offY * scale, scale, item);
+
+        if (!item.isEmpty()) {
+            double w = mc.textRenderer.getWidth("x" + item.getCount()) / 52d;
+//            WorldRenderUtils.drawText(new LiteralText("x" + item.getCount()),
+//                    x, y, z, (offX - w) * scale, (offY - 0.07) * scale, scale * 1.75, false);
+        }
+
+        int c = 0;
+        for (Map.Entry<Enchantment, Integer> m : EnchantmentHelper.get(item).entrySet()) {
+            String text = I18n.translate(m.getKey().getName(2).getString());
+
+            if (text.isEmpty())
+                continue;
+
+            text = WordUtils.capitalizeFully(text.replaceFirst("Curse of (.)", "C$1"));
+
+            String subText = text.substring(0, Math.min(text.length(), 2)) + m.getValue();
+
+//            WorldRenderUtils.drawText(new LiteralText(subText).styled(s-> s.withColor(TextColor.fromRgb(m.getKey().isCursed() ? 0xff5050 : 0xffb0e0))),
+//                    x, y, z, offX * scale, (offY + 0.7 - c * 0.3) * scale, scale * 1.25, false);
+            c--;
+        }
+    }
+
+    private Vec3d getRenderPos(Entity e) {
+        return new Vec3d(
+                e.lastRenderX + (e.getX() - e.lastRenderX) * mc.getTickDelta(),
+                (e.lastRenderY + (e.getY() - e.lastRenderY) * mc.getTickDelta()) + e.getHeight(),
+                e.lastRenderZ + (e.getZ() - e.lastRenderZ) * mc.getTickDelta());
+    }
+
+
+    public static MatrixStack matrixFrom(double x, double y, double z) {
+        MatrixStack matrix = new MatrixStack();
+
+        Camera camera = mc.gameRenderer.getCamera();
+        matrix.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0F));
+
+        matrix.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
+
+        return matrix;
+    }
+
+    public static Vector3f[] getCurrentLight() {
+        float[] light1 = new float[4];
+        float[] light2 = new float[4];
+        GL11.glGetLightfv(GL11.GL_LIGHT0, GL11.GL_POSITION, light1);
+        GL11.glGetLightfv(GL11.GL_LIGHT1, GL11.GL_POSITION, light2);
+
+        return new Vector3f[] { new Vector3f(light1[0], light1[1], light1[2]), new Vector3f(light2[0], light2[1], light2[2]) };
     }
 }

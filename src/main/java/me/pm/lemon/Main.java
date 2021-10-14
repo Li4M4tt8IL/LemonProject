@@ -27,11 +27,10 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
-
 public class Main implements ModInitializer {
     public static class ClientInfo {
         public static String clientName = "Lemon";
-        public static String clientVersion = "2.0.0";
+        public static String clientVersion = "2.0.1";
         public static String clientCreators = "f9486cc86743414091454307e86de58a";
         public static String minecraftVersion = MinecraftClient.getInstance().getGame().getVersion().getName();
         public static List<String> clientAuth = Lists.newArrayList();

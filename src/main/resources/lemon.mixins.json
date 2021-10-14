@@ -32,7 +32,9 @@
     "MouseMixin",
     "CameraMixin",
     "IFramebuffer",
-    "Matrix4fMixin"
+    "Matrix4fMixin",
+    "C00HandshadeMixin",
+    "EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

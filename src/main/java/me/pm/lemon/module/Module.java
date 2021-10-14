@@ -36,6 +36,8 @@ public class Module {
     protected static MinecraftClient mc = MinecraftClient.getInstance();
     protected static TextRenderer font = mc.textRenderer;
 
+    public void setup() {}
+
     public void toggle() {
         this.toggled = !this.toggled;
         if(this.toggled) {
@@ -44,8 +46,6 @@ public class Module {
             onDisable();
         }
     }
-
-    public void setup() {}
 
     public void onEnable() {
         EventManager.register(this);

@@ -32,8 +32,10 @@ public abstract class TitleScreenMixin extends Screen {
 
     @Inject(at = @At("HEAD"), method = "init()V")
     private void init(CallbackInfo info) throws IOException {
-        if(!UpdateChecker.isUpToDate()) {
-            MinecraftClient.getInstance().openScreen(new AutoUpdateScreen(Text.of("update.auto")));
+        if(!Main.debugMode) {
+            if(!UpdateChecker.isUpToDate()) {
+                MinecraftClient.getInstance().openScreen(new AutoUpdateScreen(Text.of("update.auto")));
+            }
         }
 
 //        TitleScreenEvent event = new TitleScreenEvent();
